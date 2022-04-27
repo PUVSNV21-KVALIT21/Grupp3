@@ -8,65 +8,65 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Hakims_Livs
 build_property.RootNamespace = Hakims_Livs
-build_property.ProjectDir = C:\Users\Jespe\source\repos\Hakims Livs\Hakims Livs\
+build_property.ProjectDir = /Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Jespe\source\repos\Hakims Livs\Hakims Livs
+build_property.MSBuildProjectDirectory = /Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/App.razor]
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Pages/FetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Pages/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Shared/LoginDisplay.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Shared/LoginDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0xvZ2luRGlzcGxheS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Shared/SurveyPrompt.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1N1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/_Imports.razor]
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Shared/MainLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-nty6w48m7c
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-9zdk0x7n9m
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Shared/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-8btnw1xlzs
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL05hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-cj4pkxgvhs
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Areas/Identity/Pages/Account/LogOut.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dPdXQuY3NodG1s
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Areas/Identity/Pages/Account/LogOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Mb2dPdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Pages/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Pages/_Host.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Jespe/source/repos/Hakims Livs/Hakims Livs/Pages/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
+[/Users/daniel/Projects/Grupp3/Hakims Livs/Hakims Livs/Pages/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
