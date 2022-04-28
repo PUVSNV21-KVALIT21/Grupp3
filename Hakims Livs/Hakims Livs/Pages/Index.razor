@@ -1,4 +1,7 @@
-﻿@page "/"
+﻿@inject Data.ApplicationDbContext context
+@page "/"
+@using Hakims_Livs.Data
+@using Hakims_Livs.Models
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +10,41 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+
+    protected override Task OnInitializedAsync()
+    {
+        LoadExampleData(context);
+        return base.OnInitializedAsync();
+    }
+ 
+        public static async Task LoadExampleData(ApplicationDbContext context)
+        {
+            
+            if (!context.Products.Any())
+            {
+                var apple = new Product
+                {
+                    Name = "Apple",
+                    Category = Product.ProductCategory.Frukt, // blir samma om man skriver Category = 0.
+                    ProductCode = "F01",
+                    Description = "Juicy, sweet and delicious apple",
+                    Image = "images/apple.jpg",
+                    Price = 5
+                };
+                var orange = new Product
+                {
+                    Name = "Orange",
+                    Category = Product.ProductCategory.Frukt, // blir samma om man skriver Category = 0.
+                    ProductCode = "F02",
+                    Description = "Juicy, sweet and delicious orange",
+                    Image = "images/orange.jpg",
+                    Price = 6
+                };
+                context.Products.Add(apple);
+                context.Products.Add(orange);
+                context.SaveChanges();
+            }
+        }
+    }

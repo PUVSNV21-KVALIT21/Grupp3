@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jespe\\source\\repos\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {}
+    "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jespe\\source\\repos\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {
+    "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jespe\\source\\repos\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
+        "projectUniqueName": "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
         "projectName": "Hakims Livs",
-        "projectPath": "C:\\Users\\Jespe\\source\\repos\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
+        "projectPath": "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
         "packagesPath": "C:\\Users\\Jespe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jespe\\source\\repos\\Hakims Livs\\Hakims Livs\\obj\\",
+        "outputPath": "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jespe\\AppData\\Roaming\\NuGet\\NuGet.Config",
