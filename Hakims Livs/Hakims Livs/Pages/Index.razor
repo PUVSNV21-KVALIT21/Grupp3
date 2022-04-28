@@ -18,33 +18,73 @@ Välkommen till Hakims...
         LoadExampleData(context);
         return base.OnInitializedAsync();
     }
- 
-        public static async Task LoadExampleData(ApplicationDbContext context)
+
+    public static async Task LoadExampleData(ApplicationDbContext context)
+    {
+        if (!context.Products.Any())
         {
             
-            if (!context.Products.Any())
-            {
-                var apple = new Product
+                var Frukt = new Category
+                    {
+                        Name = "Frukt"
+                    };
+                var Läsk = new Category
+                    {
+                        Name = "Läsk"
+                    };
+
+               var apple = new Product
                 {
                     Name = "Apple",
-                    Category = Product.ProductCategory.Frukt, // blir samma om man skriver Category = 0.
+                    CategoryName = Frukt,
                     ProductCode = "F01",
                     Description = "Juicy, sweet and delicious apple",
                     Image = "images/apple.jpg",
                     Price = 5
                 };
-                var orange = new Product
+                var pepsi = new Product
                 {
-                    Name = "Orange",
-                    Category = Product.ProductCategory.Frukt, // blir samma om man skriver Category = 0.
+                    Name = "Pepsi",
+                    CategoryName = Läsk,
+                    ProductCode = "D01",
+                    Description = "Juicy, sweet and delicious beverage",
+                    Image = "images/pepsi.jpg",
+                    Price = 15
+                };
+                var cola = new Product
+                {
+                    Name = "Cola",
+                    CategoryName = Läsk,
+                    ProductCode = "D02",
+                    Description = "Juicy, sweet and delicious beverage",
+                    Image = "images/cola.jpg",
+                    Price = 15
+                };
+                var fanta = new Product
+                {
+                    Name = "Fanta",
+                    CategoryName = Läsk,
+                    ProductCode = "D03",
+                    Description = "Juicy, sweet and delicious beverage",
+                    Image = "images/fanta.jpg",
+                    Price = 15
+                };
+                var appelsin = new Product
+                {
+                    Name = "Fanta",
+                    CategoryName = Frukt,
                     ProductCode = "F02",
                     Description = "Juicy, sweet and delicious orange",
                     Image = "images/orange.jpg",
-                    Price = 6
+                    Price = 15
                 };
                 context.Products.Add(apple);
-                context.Products.Add(orange);
+                context.Products.Add(pepsi);
+                context.Products.Add(cola);
+                context.Products.Add(fanta);
+                context.Products.Add(appelsin);
                 context.SaveChanges();
-            }
+            
+        }
         }
     }

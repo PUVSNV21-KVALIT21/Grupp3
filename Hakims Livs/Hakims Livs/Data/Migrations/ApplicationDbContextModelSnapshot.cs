@@ -22,6 +22,23 @@ namespace Hakims_Livs.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Hakims_Livs.Models.Category", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Hakims_Livs.Models.Product", b =>
                 {
                     b.Property<int>("ID")
@@ -30,7 +47,7 @@ namespace Hakims_Livs.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("Category")
+                    b.Property<int>("CategoryNameID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -53,6 +70,8 @@ namespace Hakims_Livs.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CategoryNameID");
 
                     b.ToTable("Products");
                 });
@@ -257,6 +276,17 @@ namespace Hakims_Livs.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Hakims_Livs.Models.Product", b =>
+                {
+                    b.HasOne("Hakims_Livs.Models.Category", "CategoryName")
+                        .WithMany()
+                        .HasForeignKey("CategoryNameID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CategoryName");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

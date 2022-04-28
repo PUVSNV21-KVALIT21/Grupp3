@@ -8,10 +8,14 @@ namespace Hakims_Livs.Data
         {
             if (!context.Products.Any())
             {
+                var cat = new Category
+                {
+                    Name = "Frukt"
+                };
                 var testprodukt = new Product
                 {
                     Name = "Apple",
-                    Category = 0,
+                    CategoryName = cat,
                     ProductCode = "F01",
                     Description = "Juicy, sweet and delicious apple",
                     Image = "IMG_URL_HÄR",
