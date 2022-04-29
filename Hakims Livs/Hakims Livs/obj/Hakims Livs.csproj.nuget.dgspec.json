@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {}
+    "C:\\Users\\testar\\OneDrive\\Skrivbord\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {
+    "C:\\Users\\testar\\OneDrive\\Skrivbord\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
+        "projectUniqueName": "C:\\Users\\testar\\OneDrive\\Skrivbord\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
         "projectName": "Hakims Livs",
-        "projectPath": "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
-        "packagesPath": "C:\\Users\\Jespe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jespe\\source\\repos\\Grupp3\\Hakims Livs\\Hakims Livs\\obj\\",
+        "projectPath": "C:\\Users\\testar\\OneDrive\\Skrivbord\\Grupp3\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
+        "packagesPath": "C:\\Users\\testar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\testar\\OneDrive\\Skrivbord\\Grupp3\\Hakims Livs\\Hakims Livs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Jespe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\testar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -79,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
