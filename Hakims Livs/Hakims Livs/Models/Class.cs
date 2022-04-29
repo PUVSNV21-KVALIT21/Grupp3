@@ -11,6 +11,7 @@ namespace Hakims_Livs.Models
         public string? Address { get; set; }
         public string? City { get; set; }
         public string? PostalCode { get; set; }
+        public DateTime? Created { get; set; }
         public int? Age { get; set; }
         [NotMapped]
         public string FullName { get { return this.FirstName + " " + this.LastName; } }
