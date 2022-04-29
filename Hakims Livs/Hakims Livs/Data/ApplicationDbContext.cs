@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hakims_Livs.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<Customer>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
