@@ -36,7 +36,7 @@ namespace Hakims_Livs.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Hakims_Livs.Models.Customer", b =>
@@ -159,7 +159,7 @@ namespace Hakims_Livs.Data.Migrations
 
                     b.HasIndex("CategoryNameID");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
