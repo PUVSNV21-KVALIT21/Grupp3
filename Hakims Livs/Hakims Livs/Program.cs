@@ -1,5 +1,6 @@
 using Hakims_Livs.Areas.Identity;
 using Hakims_Livs.Data;
+using Hakims_Livs.Models;
 using Hakims_Livs.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;

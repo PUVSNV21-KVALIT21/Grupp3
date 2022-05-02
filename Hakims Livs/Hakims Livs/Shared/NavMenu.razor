@@ -33,9 +33,10 @@
         @foreach (var category in context.Categories)
         {
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="product">
+                <NavLink class="nav-link" href=@($"product/{category.ID}")>
                     <span class="oi oi-list-rich" aria-hidden="true"></span>@category.Name.ToString()
                 </NavLink>
+
             </div> 
         }
     

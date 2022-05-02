@@ -1,10 +1,37 @@
 ﻿@page "/product"
-
-<PageTitle>Produkter</PageTitle>
-
+@page "/product/{id:int}"
+@inject Data.ApplicationDbContext context
 @using Hakims_Livs.Data
-<h3></h3>
 
+
+<PageTitle> Produkter </PageTitle>
+
+    @GetProducts(id);
+    
+    @foreach (var product in selectedProducts)
+        {
+            
+               <div class="ProductDiv">
+                   <img class ="ProductImage "src= "@product.Image" />
+                   <div class ="ProductName"> @product.Name</div>
+                   <div class ="ProductDescription">@product.Description</div>
+                   <div class ="ProductPrice">@product.Price kr</div>
+                   <div class ="AddToCartButton"><button>Lägg till i varukorg</button></div>
+
+               </div>
+        }
+ 
 @code {
 
+    [Parameter]
+    public  int? id {get; set; }
+    public List<Product> selectedProducts { get; set; }
+
+    public async Task GetProducts(int? id)
+    {
+        selectedProducts = new List<Product>();
+        selectedProducts =  context.Products
+        .Where(p => p.CategoryName.ID == id)
+        .ToList();
+    }
 }
