@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\46722\\Source\\Repos\\hakim\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {}
+    "C:\\Users\\46722\\source\\repos\\hakims-livs\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {}
   },
   "projects": {
-    "C:\\Users\\46722\\Source\\Repos\\hakim\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {
+    "C:\\Users\\46722\\source\\repos\\hakims-livs\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\46722\\Source\\Repos\\hakim\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
+        "projectUniqueName": "C:\\Users\\46722\\source\\repos\\hakims-livs\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
         "projectName": "Hakims Livs",
-        "projectPath": "C:\\Users\\46722\\Source\\Repos\\hakim\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
+        "projectPath": "C:\\Users\\46722\\source\\repos\\hakims-livs\\Hakims Livs\\Hakims Livs\\Hakims Livs.csproj",
         "packagesPath": "C:\\Users\\46722\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\46722\\Source\\Repos\\hakim\\Hakims Livs\\Hakims Livs\\obj\\",
+        "outputPath": "C:\\Users\\46722\\source\\repos\\hakims-livs\\Hakims Livs\\Hakims Livs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\46722\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,19 +46,29 @@
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[6.0.4, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[6.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[6.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.3.0, )"
             }
           },
           "imports": [
