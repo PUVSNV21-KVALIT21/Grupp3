@@ -1,10 +1,21 @@
 ﻿@page "/product"
+@page "/product/{id:int}"
 
-<PageTitle>Produkter</PageTitle>
+<PageTitle> Produkter </PageTitle>
 
-@using Hakims_Livs.Data
-<h3></h3>
-
+    @foreach (var product in context.Products.Where(p=>p.CategoryName.ID==id))
+        {
+               <div class="ProductDiv">
+                   <img class ="ProductImage "src= "@product.Image" />
+                   <div class ="ProductName"> @product.Name</div>
+                   <div class ="ProductDescription">@product.Description</div>
+                   <div class ="ProductPrice">@product.Price kr</div>
+                   <div class ="AddToCartButton"><button>Lägg till i varukorg</button></div>
+               </div>
+        }
+ 
 @code {
 
+    [Parameter]
+    public  int? id {get; set; }
 }
