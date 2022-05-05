@@ -1,21 +1,66 @@
 ﻿@page "/product"
 @page "/product/{id:int}"
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Mvc.Rendering
+@inject Data.ApplicationDbContext context
+@using Hakims_Livs.Models;
 
 <PageTitle> Produkter </PageTitle>
-
-    @foreach (var product in context.Products.Where(p=>p.CategoryName.ID==id))
+    <select @onchange="ChangeSorting">
+    @foreach (var option in options)
         {
-               <div class="ProductDiv">
-                   <img class ="ProductImage "src= "@product.Image" />
-                   <div class ="ProductName"> @product.Name</div>
-                   <div class ="ProductDescription">@product.Description</div>
-                   <div class ="ProductPrice">@product.Price kr</div>
-                   <div class ="AddToCartButton"><button>Lägg till i varukorg</button></div>
-               </div>
+            <option value=@option>@option</option>
+        }
+    </select>
+    @foreach (var product in ProductList)
+        {
+            <div class="ProductDiv">
+                <img class ="ProductImage "src= "@product.Image" />
+                <div class ="ProductName"> @product.Name</div>
+                <div class ="ProductDescription">@product.Description</div>
+                <div class ="ProductPrice">@product.Price kr</div>
+                <div class ="AddToCartButton"><button>Lägg till i varukorg</button></div>
+            </div>
         }
  
 @code {
 
     [Parameter]
     public  int? id {get; set; }
+    public List<Product> ProductList { get; set; }
+    public List<string> options = new List<string>();
+    public string SelectedString { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        options = new List<string>() { "Name", "Price", "Stock" };
+        SelectedString = "Name";
+
+        var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking().OrderBy(x => x.Name);
+
+        ProductList = new List<Product>();
+        ProductList = query.ToList();
+    }
+    public async Task ChangeSorting(ChangeEventArgs e)
+    {
+        SelectedString = e.Value.ToString();
+        var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking();
+        if (SelectedString == "Name")
+        {
+            query = query
+            .OrderBy(x => x.Name);
+        }
+        if (SelectedString == "Price")
+        {
+            query = query
+            .OrderBy(x => x.Price);
+        }
+        //Finns ingen lagerstatus ännu
+        if (SelectedString == "Stock")
+        {
+            throw new NotImplementedException();
+        }
+        ProductList = new List<Product>();
+        ProductList = await query.ToListAsync();
+    }
 }
