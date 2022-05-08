@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Configuration;
 
 namespace Hakims_Livs.Areas.Identity.Pages.Account
 {
@@ -79,12 +80,18 @@ namespace Hakims_Livs.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
-            public int? Age { get; set; }
+
+            [Range(18, 125, ErrorMessage = "Please enter a number between 18 and 125")]
+            public int Age { get; set; }
+
             [Required]
             public string City { get; set; }
+
             [Required]
             public string Address { get; set; }
+
             [Required]
+            [StringLength(5, ErrorMessage = "The Postal Code must be 5 characters long.", MinimumLength = 5)]
             public string PostalCode { get; set; }
         }
 

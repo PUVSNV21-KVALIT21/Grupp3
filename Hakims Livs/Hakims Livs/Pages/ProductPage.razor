@@ -12,16 +12,21 @@
             <option value=@option>@option</option>
         }
     </select>
-    @foreach (var product in ProductList)
+    <div class="productcontainer">
+        @for (int i=0; i<10; i++)
         {
-            <div class="ProductDiv">
-                <img class ="ProductImage "src= "@product.Image" />
-                <div class ="ProductName"> @product.Name</div>
-                <div class ="ProductDescription">@product.Description</div>
-                <div class ="ProductPrice">@product.Price kr</div>
-                <div class ="AddToCartButton"><button>Lägg till i varukorg</button></div>
-            </div>
+        @foreach (var product in ProductList)
+            {
+                <div class="productdiv">
+                    <img class ="productimage "src= "@product.Image" />
+                    <div class ="productname">@product.Name</div>
+                    <div class ="productdescription">@product.Description</div>
+                    <div class ="productprice">@product.Price kr</div>
+                    <button class="cartbutton">Lägg till i varukorg</button>
+                </div>
+            }
         }
+    </div>
  
 @code {
 
