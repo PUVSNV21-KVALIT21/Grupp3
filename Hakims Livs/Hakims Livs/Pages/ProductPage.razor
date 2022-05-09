@@ -2,7 +2,11 @@
 @page "/product/{id:int}"
 @using Microsoft.AspNetCore.Mvc
 @using Microsoft.AspNetCore.Mvc.Rendering
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Data.ApplicationDbContext context
+@inject NavigationManager Navigation
 @using Hakims_Livs.Models;
 
 <PageTitle> Produkter </PageTitle>
@@ -20,7 +24,7 @@
                     <div class ="productname">@product.Name</div>
                     <div class ="productdescription">@product.Description</div>
                     <div class ="productprice">@product.Price kr</div>
-                    <button class="cartbutton">Lägg till i varukorg</button>
+                    <button @onclick="AddToCart" class="cartbutton">Lägg till i varukorg</button>
                 </div>
             }
     </div>
@@ -37,12 +41,12 @@
     {
         options = new List<string>() { "Name", "Price", "Stock" };
         SelectedString = "Name";
-
         var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking().OrderBy(x => x.Name);
 
         ProductList = new List<Product>();
         ProductList = query.ToList();
     }
+
     public async Task ChangeSorting(ChangeEventArgs e)
     {
         SelectedString = e.Value.ToString();
@@ -64,5 +68,19 @@
         }
         ProductList = new List<Product>();
         ProductList = await query.ToListAsync();
+    }
+
+    private async void AddToCart()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            //Add to cart
+        }
+        else
+        {
+            Navigation.NavigateTo("/Identity/Account/Login", forceLoad: true);
+        }
     }
 }
