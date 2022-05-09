@@ -8,7 +8,9 @@
 @inject Data.ApplicationDbContext context
 @inject NavigationManager Navigation
 @using Hakims_Livs.Models
-@inject IModalService modal
+@using Hakims_Livs.Services
+@inject IShowModal _showModal
+
 
 <PageTitle> Produkter </PageTitle>
     <select @onchange="ChangeSorting">
@@ -49,10 +51,7 @@
     }
     void ShowProduct (int productId)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(ProductDetails.id), productId);
-
-        modal.Show<ProductDetails>((""), parameters);
+        _showModal.DisplayModal(productId);
     }
     public async Task ChangeSorting(ChangeEventArgs e)
     {
