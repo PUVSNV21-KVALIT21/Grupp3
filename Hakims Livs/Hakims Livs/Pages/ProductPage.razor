@@ -1,12 +1,17 @@
 ﻿@page "/product"
 @page "/product/{id:int}"
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc
 @using Microsoft.AspNetCore.Mvc.Rendering
 @inject Data.ApplicationDbContext context
+@inject UserManager<Customer> UserManager
+@inject SignInManager<Customer> SignInManager
 @using Hakims_Livs.Models;
 
 <PageTitle> Produkter </PageTitle>
     <select @onchange="ChangeSorting">
+        
+      
     @foreach (var option in options)
         {
             <option value=@option>@option</option>
@@ -19,7 +24,7 @@
                 <div class ="ProductName"> @product.Name</div>
                 <div class ="ProductDescription">@product.Description</div>
                 <div class ="ProductPrice">@product.Price kr</div>
-                <div class ="AddToCartButton"><button>Lägg till i varukorg</button></div>
+                <div class ="AddToCartButton"><button @onclick="() => AddProductToShoppingCart(product)">Lägg till i varukorg</button></div>
             </div>
         }
  
@@ -29,7 +34,15 @@
     public  int? id {get; set; }
     public List<Product> ProductList { get; set; }
     public List<string> options = new List<string>();
+
     public string SelectedString { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string customerId { get; set; }
+    private System.Security.Claims.ClaimsPrincipal user{ get; set; }
+
+
 
     protected override void OnParametersSet()
     {
@@ -63,4 +76,29 @@
         ProductList = new List<Product>();
         ProductList = await query.ToListAsync();
     }
+    //hämtar användarens id
+    protected override async Task OnInitializedAsync()
+    {
+
+        user= (await authenticationStateTask).User;
+
+        var thisUser= UserManager.GetUserName(user).ToString();
+        var userObject = context.Users.Where(u => u.Email == thisUser).First();
+        customerId = userObject.Id;
+        
+    }
+
+    public async Task AddProductToShoppingCart(Product product)
+    {
+
+        ShoppingCart shoppingcart = new ShoppingCart();
+        shoppingcart.Product = product;
+        shoppingcart.UserId = customerId;
+
+        await context.ShoppingCarts.AddAsync(shoppingcart);
+        await context.SaveChangesAsync();
+      
+        
+    }
+
 }

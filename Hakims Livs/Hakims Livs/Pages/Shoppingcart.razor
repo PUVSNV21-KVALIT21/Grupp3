@@ -1,7 +1,60 @@
-﻿@page "/shoppingcart"
+﻿@inject Data.ApplicationDbContext context
+@inject UserManager<Customer> UserManager
+@using Microsoft.AspNetCore.Identity
+
+@using Hakims_Livs.Models
+
+
+@page "/shoppingcart"
+
+    
 <h3>Kundvagnen</h3>
-<h5>Här kan du se alla varor i din kundvagn</h5>
+
+
+
+<AuthorizeView>  
+<Authorized>
+    <h5>Hej, @context.User.Identity?.Name</h5>
+
+   @* loopar igenom alla shoppinglistor där en produkti i varje lista finns*@
+      
+            
+            @foreach (var product in ShoppingList)
+            {
+                <div class="ProductDiv">
+                    <img class ="ProductImage "src= "@product.Product.Image" />
+                    <div class ="ProductName"> @product.Product.Name</div>
+                    <div class ="ProductDescription">@product.Product.Description</div>
+                    <div class ="ProductPrice">@product.Product.Price kr</div>
+                </div>
+            }
+        
+     
+    </Authorized>
+</AuthorizeView>  
 
 @code {
+    public List<ShoppingCart> ShoppingList { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string customerId { get; set; }
+    private System.Security.Claims.ClaimsPrincipal user{ get; set; }
 
+    //hämtar användarens id
+    protected override async Task OnInitializedAsync()
+    {
+
+        user= (await authenticationStateTask).User;
+        var thisUser= UserManager.GetUserName(user).ToString();
+        var userObject = context.Users.Where(u => u.Email == thisUser).First();
+        customerId = userObject.Id;
+
+
+    }
+    protected override void OnParametersSet()
+    {
+        ShoppingList = new List<ShoppingCart>();
+        ShoppingList = context.ShoppingCarts.Where(s=>s.UserId==customerId).ToList();
+       
+    }
 }
