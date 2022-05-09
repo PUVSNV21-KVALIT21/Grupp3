@@ -11,11 +11,15 @@
 @inject IModalService modal
 
     <div class="productcontainer-detailed">
-        <img class="productimage-detailed" src="@product.Image"/>
-        <div class="productname-detailed"> @product.Name</div>
-        <div class ="productdescription-detailed">@product.Description</div>
-        <div class ="productprice-detailed">@product.Price kr</div>
-        <button @onclick="AddToCart" class="cartbutton-detailed">Lägg till i varukorg</button>
+        <div class="left">
+            <img class="productimage-detailed" src="@product.Image"/>
+        </div>
+        <div class="right">
+            <div class="productname-detailed"> @product.Name</div>
+            <div class ="productdescription-detailed">@product.Description</div>
+            <div class ="productprice-detailed">@product.Price kr</div>
+            <button @onclick="AddToCart" class="cartbutton-detailed">Lägg till i varukorg</button>
+        </div>
     </div>
 
 @code {

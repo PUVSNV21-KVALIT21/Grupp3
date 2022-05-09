@@ -52,7 +52,7 @@
         var parameters = new ModalParameters();
         parameters.Add(nameof(ProductDetails.id), productId);
 
-        modal.Show<ProductDetails>("Detail", parameters);
+        modal.Show<ProductDetails>((""), parameters);
     }
     public async Task ChangeSorting(ChangeEventArgs e)
     {
