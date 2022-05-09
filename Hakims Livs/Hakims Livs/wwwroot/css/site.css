@@ -88,7 +88,7 @@ a, .btn-link {
     font-size: 18px;
     font-weight: bold;
 }
-.cartbutton {
+.cartbutton, .cartbutton-detailed {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
@@ -104,4 +104,36 @@ a, .btn-link {
     color: #fff;
     background-color: #0069d9;
     border-color: #0062cc;
+}
+
+.productcontainer-detailed {
+    display: flex;
+    flex-direction: row;
+    line-height: 2.4rem;
+    max-width: 1000px;
+    max-height: 650px;
+}
+.productname-detailed {
+    font-size: 30px;
+    font-weight: bold;
+}
+.right {
+    display: flex;
+    flex-direction: column;
+}
+.right, .left {
+    padding: 1rem;
+}
+
+.productprice-detailed {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+cartbutton-detailed {
+    text-align: center;
+}
+.productimage-detailed {
+    height: 200px;
+    width: 200px;
 }
