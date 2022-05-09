@@ -1,8 +1,9 @@
 ﻿@using Blazored.Typeahead;
 @using Hakims_Livs.Data;
+@using Hakims_Livs.Services
 @inject Data.ApplicationDbContext context
 @inherits LayoutComponentBase
-
+@inject IShowModal _showModal
 <PageTitle>Hakim Livs</PageTitle>
 
 <div class="page">
@@ -34,6 +35,10 @@
         <article class="content px-4">
             @Body
         </article>
+        @if (SelectedProduct != null)
+        {
+            ShowProduct(SelectedProduct.ID);
+        }
     </main>
 </div>
 @code {
@@ -48,5 +53,9 @@
     private async Task<IEnumerable<Product>> AutoSearch(string searchProduct)
     {
         return await Task.FromResult(products.Where(x => x.Name.ToLower().Contains(searchProduct.ToLower())).ToList());
+    }
+    void ShowProduct (int productId)
+    {
+        _showModal.DisplayModal(productId);
     }
 }
