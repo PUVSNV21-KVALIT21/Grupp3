@@ -7,7 +7,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Data.ApplicationDbContext context
 @inject NavigationManager Navigation
-@using Hakims_Livs.Models;
+@using Hakims_Livs.Models
+@inject IModalService modal
 
 <PageTitle> Produkter </PageTitle>
     <select @onchange="ChangeSorting">
@@ -19,7 +20,7 @@
     <div class="productcontainer">
         @foreach (var product in ProductList)
             {
-                <div class="productdiv">
+                <div class="productdiv" @onclick="@(() => ShowProduct(product.ID))">
                     <img class ="productimage "src= "@product.Image" />
                     <div class ="productname">@product.Name</div>
                     <div class ="productdescription">@product.Description</div>
@@ -46,7 +47,13 @@
         ProductList = new List<Product>();
         ProductList = query.ToList();
     }
+    void ShowProduct (int productId)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ProductDetails.id), productId);
 
+        modal.Show<ProductDetails>("Detail", parameters);
+    }
     public async Task ChangeSorting(ChangeEventArgs e)
     {
         SelectedString = e.Value.ToString();
