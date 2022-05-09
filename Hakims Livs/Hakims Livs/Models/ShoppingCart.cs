@@ -4,6 +4,7 @@ namespace Hakims_Livs.Models
 {
     public class ShoppingCart
     {
+        public int ID { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
         public string UserId { get; set; }

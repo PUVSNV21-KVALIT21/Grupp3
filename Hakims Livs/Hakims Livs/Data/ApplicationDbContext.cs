@@ -15,21 +15,21 @@ namespace Hakims_Livs.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
 
 
-            modelBuilder.Entity<ShoppingCart>().HasKey(s => new
-            {
-                s.ProductId,
-                s.UserId
-            });
+        //    modelBuilder.Entity<ShoppingCart>().HasKey(s => new
+        //    {
+        //        s.ProductId,
+        //        s.UserId
+        //    });
 
 
 
-            base.OnModelCreating(modelBuilder);
+        //    base.OnModelCreating(modelBuilder);
 
 
-        }
+        //}
     }
 }

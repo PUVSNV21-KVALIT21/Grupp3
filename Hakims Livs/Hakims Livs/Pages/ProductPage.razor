@@ -31,7 +31,7 @@
 @code {
 
     [Parameter]
-    public  int? id {get; set; }
+    public int? id { get; set; }
     public List<Product> ProductList { get; set; }
     public List<string> options = new List<string>();
 
@@ -39,9 +39,9 @@
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-    private string customerId { get; set; }
-    private System.Security.Claims.ClaimsPrincipal user{ get; set; }
 
+    private System.Security.Claims.ClaimsPrincipal user { get; set; }
+    private Customer currentCustomer { get; set; }
 
 
     protected override void OnParametersSet()
@@ -76,29 +76,26 @@
         ProductList = new List<Product>();
         ProductList = await query.ToListAsync();
     }
-    //hämtar användarens id
-    protected override async Task OnInitializedAsync()
+
+    protected async Task GetCurrentUserAsync()
     {
-
-        user= (await authenticationStateTask).User;
-
-        var thisUser= UserManager.GetUserName(user).ToString();
-        var userObject = context.Users.Where(u => u.Email == thisUser).First();
-        customerId = userObject.Id;
-        
+        user = (await authenticationStateTask).User;
+        currentCustomer = await UserManager.GetUserAsync(user);
     }
 
     public async Task AddProductToShoppingCart(Product product)
     {
+        await GetCurrentUserAsync();
 
-        ShoppingCart shoppingcart = new ShoppingCart();
-        shoppingcart.Product = product;
-        shoppingcart.UserId = customerId;
+        if (currentCustomer != null)
+        {
 
-        await context.ShoppingCarts.AddAsync(shoppingcart);
-        await context.SaveChangesAsync();
-      
-        
+            ShoppingCart shoppingcart = new ShoppingCart();
+            shoppingcart.ProductId = product.ID;
+            shoppingcart.UserId = currentCustomer.Id;
+
+            await context.ShoppingCarts.AddAsync(shoppingcart);
+            await context.SaveChangesAsync();
+        }
     }
-
 }

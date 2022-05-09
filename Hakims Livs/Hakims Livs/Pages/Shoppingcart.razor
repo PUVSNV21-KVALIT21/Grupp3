@@ -1,60 +1,63 @@
 ﻿@inject Data.ApplicationDbContext context
 @inject UserManager<Customer> UserManager
 @using Microsoft.AspNetCore.Identity
-
 @using Hakims_Livs.Models
-
 
 @page "/shoppingcart"
 
-    
 <h3>Kundvagnen</h3>
 
+<AuthorizeView>
+    <Authorized>
+        <h5>Hej, @context.User.Identity?.Name</h5>
 
+        @foreach (var product in ProductList)
+        {
+            <div class="ProductDiv">
+                <img class="ProductImage " src="@product.Image" />
+                <div class="ProductName"> @product.Name</div>
+                <div class="ProductDescription">@product.Description</div>
+                <div class="ProductPrice">@product.Price kr</div>
+            </div>
+        }
 
-<AuthorizeView>  
-<Authorized>
-    <h5>Hej, @context.User.Identity?.Name</h5>
-
-   @* loopar igenom alla shoppinglistor där en produkti i varje lista finns*@
-      
-            
-            @foreach (var product in ShoppingList)
-            {
-                <div class="ProductDiv">
-                    <img class ="ProductImage "src= "@product.Product.Image" />
-                    <div class ="ProductName"> @product.Product.Name</div>
-                    <div class ="ProductDescription">@product.Product.Description</div>
-                    <div class ="ProductPrice">@product.Product.Price kr</div>
-                </div>
-            }
-        
-     
     </Authorized>
-</AuthorizeView>  
+</AuthorizeView>
 
 @code {
-    public List<ShoppingCart> ShoppingList { get; set; }
+    //list with user id and product id
+    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
+
+    public List<Product> ProductList = new List<Product>();
+
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-    private string customerId { get; set; }
-    private System.Security.Claims.ClaimsPrincipal user{ get; set; }
+    private System.Security.Claims.ClaimsPrincipal user { get; set; }
+    private Customer currentCustomer { get; set; }
 
-    //hämtar användarens id
-    protected override async Task OnInitializedAsync()
+    protected async Task GetCurrentUserAsync()
     {
-
-        user= (await authenticationStateTask).User;
-        var thisUser= UserManager.GetUserName(user).ToString();
-        var userObject = context.Users.Where(u => u.Email == thisUser).First();
-        customerId = userObject.Id;
-
-
+        user = (await authenticationStateTask).User;
+        currentCustomer = await UserManager.GetUserAsync(user);
     }
-    protected override void OnParametersSet()
+
+    protected override async Task OnParametersSetAsync()
     {
+        await GetCurrentUserAsync();
+
         ShoppingList = new List<ShoppingCart>();
-        ShoppingList = context.ShoppingCarts.Where(s=>s.UserId==customerId).ToList();
-       
+
+        if (currentCustomer != null)
+        {
+            //create a list with all shoppinglists where the user id match the loged in user
+            ShoppingList = context.ShoppingCarts.Where(s => s.UserId == currentCustomer.Id).ToList();
+
+            ProductList = new List<Product>();
+            foreach (var productId in ShoppingList)
+            {
+                var thisProduct = context.Products.First(p => p.ID == productId.ProductId);
+                ProductList.Add(thisProduct);
+            }
+        }
     }
 }

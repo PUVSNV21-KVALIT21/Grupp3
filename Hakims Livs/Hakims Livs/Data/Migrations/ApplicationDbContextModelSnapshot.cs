@@ -169,13 +169,22 @@ namespace Hakims_Livs.Data.Migrations
 
             modelBuilder.Entity("Hakims_Livs.Models.ShoppingCart", b =>
                 {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ProductId", "UserId");
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
