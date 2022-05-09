@@ -91,7 +91,9 @@ namespace Hakims_Livs.Areas.Identity.Pages.Account
             public string Address { get; set; }
 
             [Required]
-            [StringLength(5, ErrorMessage = "The Postal Code must be 5 characters long.", MinimumLength = 5)]
+            [MaxLength(5, ErrorMessage = "Postal Code must be 5 numbers")]
+            [MinLength(5, ErrorMessage = "Postal Code must be 5 numbers")]
+            [RegularExpression("^[0-9]*$", ErrorMessage = "Postal Code can only be numeric")]
             public string PostalCode { get; set; }
         }
 

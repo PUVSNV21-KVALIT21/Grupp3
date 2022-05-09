@@ -13,8 +13,6 @@
         }
     </select>
     <div class="productcontainer">
-        @for (int i=0; i<10; i++)
-        {
         @foreach (var product in ProductList)
             {
                 <div class="productdiv">
@@ -25,7 +23,6 @@
                     <button class="cartbutton">Lägg till i varukorg</button>
                 </div>
             }
-        }
     </div>
  
 @code {
