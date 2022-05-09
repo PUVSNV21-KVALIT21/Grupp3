@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.Typeahead;
+@using Hakims_Livs.Data;
+@inject Data.ApplicationDbContext context
+@inherits LayoutComponentBase
 
 <PageTitle>Hakim Livs</PageTitle>
 
@@ -9,10 +12,12 @@
 
     <main>
         <div class="top-row px-4 auth">
-         <form>
-            <input type="text" />
-            <input type="submit" value="Search" />
-        </form>
+            <div class ="searchbar">
+            <BlazoredTypeahead SearchMethod="AutoSearch" @bind-Value="SelectedProduct">
+                <SelectedTemplate>@context.Name</SelectedTemplate>
+                <ResultTemplate>@context.Name</ResultTemplate>
+            </BlazoredTypeahead>
+            </div>
         <form>
             <NavLink href="shoppingcart" >
             <button class="ShoppingcartButton">Kundvagnen</button>
@@ -31,3 +36,17 @@
         </article>
     </main>
 </div>
+@code {
+    private List<Product> products;
+    private Product SelectedProduct;
+
+    protected override void OnInitialized()
+    {
+        products = new List<Product>();
+        products = context.Products.ToList();
+    }
+    private async Task<IEnumerable<Product>> AutoSearch(string searchProduct)
+    {
+        return await Task.FromResult(products.Where(x => x.Name.ToLower().Contains(searchProduct.ToLower())).ToList());
+    }
+}
