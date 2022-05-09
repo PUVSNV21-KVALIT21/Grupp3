@@ -15,7 +15,7 @@
             <div class ="searchbar">
             <BlazoredTypeahead SearchMethod="AutoSearch" @bind-Value="SelectedProduct">
                 <SelectedTemplate>@context.Name</SelectedTemplate>
-                <ResultTemplate>@context.Name</ResultTemplate>
+                <ResultTemplate><img src="@context.Image" width="40" height="40"/> @context.Name</ResultTemplate>
             </BlazoredTypeahead>
             </div>
         <form>
