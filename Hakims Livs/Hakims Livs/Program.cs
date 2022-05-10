@@ -25,6 +25,8 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddBlazoredModal();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IShowModal, ShowModal>();
+builder.Services.AddTransient<ICart, Cart>();
+builder.Services.AddTransient<IUser, User>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 var app = builder.Build();

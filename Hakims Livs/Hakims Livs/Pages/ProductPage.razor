@@ -7,13 +7,14 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Data.ApplicationDbContext context
-
 @inject UserManager<Customer> UserManager
 @inject SignInManager<Customer> SignInManager
 @inject NavigationManager Navigation
 @using Hakims_Livs.Models
 @using Hakims_Livs.Services
 @inject IShowModal _showModal
+@inject IUser _user
+@inject ICart _cart
 
 
 <PageTitle> Produkter </PageTitle>
@@ -29,11 +30,13 @@
     <div class="productcontainer">
         @foreach (var product in ProductList)
             {
-                <div class="productdiv" @onclick="@(() => ShowProduct(product.ID))">
+                <div class="productdiv">
+                    <div class ="onclick" @onclick="@(() => ShowProduct(product.ID))">
                     <img class ="productimage "src= "@product.Image" />
                     <div class ="productname">@product.Name</div>
                     <div class ="productdescription">@product.Description</div>
                     <div class ="productprice">@product.Price kr</div>
+                    </div>
                     <button @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
                 </div>
             }
@@ -45,15 +48,9 @@
     public int? id { get; set; }
     public List<Product> ProductList { get; set; }
     public List<string> options = new List<string>();
-
+    private string username;
     public string SelectedString { get; set; }
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
-
-    private System.Security.Claims.ClaimsPrincipal user { get; set; }
     private Customer currentCustomer { get; set; }
-
 
     protected override void OnParametersSet()
     {
@@ -92,39 +89,18 @@
     }
 
 
-    protected async Task GetCurrentUserAsync()
-    {
-        user = (await authenticationStateTask).User;
-        currentCustomer = await UserManager.GetUserAsync(user);
-    }
-
     public async Task AddProductToShoppingCart(Product product)
     {
-        await GetCurrentUserAsync();
+        currentCustomer = await _user.GetCurrentUserAsync();
+        var customerId = currentCustomer.Id;
 
         if (currentCustomer != null)
         {
-
-            ShoppingCart shoppingcart = new ShoppingCart();
-            shoppingcart.ProductId = product.ID;
-            shoppingcart.UserId = currentCustomer.Id;
-        }
-            await context.ShoppingCarts.AddAsync(shoppingcart);
-            await context.SaveChangesAsync();
-      }
-
-    private async void AddToCart()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        if (user.Identity.IsAuthenticated)
-        {
-            //Add to cart
+            await _cart.AddProductToShoppingCart(product);
         }
         else
         {
             Navigation.NavigateTo("/Identity/Account/Login", forceLoad: true);
-
         }
     }
 }

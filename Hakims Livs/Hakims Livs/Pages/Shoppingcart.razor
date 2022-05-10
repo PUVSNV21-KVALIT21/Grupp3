@@ -2,6 +2,8 @@
 @inject UserManager<Customer> UserManager
 @using Microsoft.AspNetCore.Identity
 @using Hakims_Livs.Models
+@using Hakims_Livs.Services
+@inject IUser _user
 
 @page "/shoppingcart"
 
@@ -38,8 +40,7 @@
 
     protected async Task GetCurrentUserAsync()
     {
-        user = (await authenticationStateTask).User;
-        currentCustomer = await UserManager.GetUserAsync(user);
+        currentCustomer = await _user.GetCurrentUserAsync();
     }
 
     protected override async Task OnParametersSetAsync()

@@ -90,6 +90,7 @@ a, .btn-link {
 }
 .cartbutton, .cartbutton-detailed {
     color: #fff;
+    text-align: center;
     background-color: #007bff;
     border-color: #007bff;
     font-weight: 400;
