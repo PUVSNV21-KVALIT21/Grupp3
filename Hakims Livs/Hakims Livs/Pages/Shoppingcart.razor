@@ -5,6 +5,7 @@
 @using Hakims_Livs.Services
 @inject IUser _user
 @inject ICart _cart
+@inject NavigationManager Navigation
 
 @page "/shoppingcart"
 
@@ -63,6 +64,6 @@
     {
         await _cart.RemoveProduct(product);
         await OnParametersSetAsync();
-        await InvokeAsync(StateHasChanged); 
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
 }

@@ -17,6 +17,7 @@
 @inject ICart _cart
 
 
+
 <PageTitle> Produkter </PageTitle>
     <select @onchange="ChangeSorting">
         
@@ -96,6 +97,7 @@
         if (currentCustomer != null)
         {
             await _cart.AddProductToShoppingCart(product);
+            Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
         }
         else
         {

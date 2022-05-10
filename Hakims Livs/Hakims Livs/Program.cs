@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Blazored.Modal;
+using Hakims_Livs.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,6 @@ builder.Services.AddDefaultIdentity<Customer>(options => options.SignIn.RequireC
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddBlazoredModal();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IShowModal, ShowModal>();

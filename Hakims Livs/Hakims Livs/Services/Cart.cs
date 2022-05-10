@@ -11,9 +11,11 @@ namespace Hakims_Livs.Services
         public Task AddProductToShoppingCart(Product product);
         public Task RemoveProduct (Product product);
         public Task<double> UpdateCartPrice();
+        event Action<double> OnMessage;
     }
     public class Cart : ICart
     {
+        public event Action<double> OnMessage;
         private readonly ApplicationDbContext _context;
         private Customer currentCustomer { get; set; }
         private readonly UserManager<Customer> UserManager;
@@ -53,7 +55,7 @@ namespace Hakims_Livs.Services
                     totalCost += item;
                 }
             }
-                return totalCost;
+            return totalCost;
         }
     }
 }
