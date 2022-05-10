@@ -18,6 +18,7 @@
                 <div class="ProductName"> @product.Name</div>
                 <div class="ProductDescription">@product.Description</div>
                 <div class="ProductPrice">@product.Price kr</div>
+                <div class ="RemoveProductButton"><button @onclick="() => RemoveProduct(product)">Ta bort</button></div>
             </div>
         }
 
@@ -60,4 +61,15 @@
             }
         }
     }
+    public async Task RemoveProduct(Product product)
+    {
+        //find the shoppinglist with the chosen product
+        var shoppinglistToRemove = context.ShoppingCarts.FirstOrDefault(s=> s.Product == product);
+
+        context.ShoppingCarts.Remove(shoppinglistToRemove);
+        await context.SaveChangesAsync();
+        await OnParametersSetAsync();
+
+    }
+  
 }
