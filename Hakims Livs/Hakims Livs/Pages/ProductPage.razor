@@ -92,7 +92,6 @@
     public async Task AddProductToShoppingCart(Product product)
     {
         currentCustomer = await _user.GetCurrentUserAsync();
-        var customerId = currentCustomer.Id;
 
         if (currentCustomer != null)
         {
