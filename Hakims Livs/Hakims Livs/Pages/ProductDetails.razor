@@ -1,0 +1,48 @@
+﻿@page "/productDetail"
+@page "/productDetail/{id:int}"
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject Data.ApplicationDbContext context
+@inject NavigationManager Navigation
+@using Hakims_Livs.Models
+@inject IModalService modal
+
+    <div class="productcontainer-detailed">
+        <div class="left">
+            <img class="productimage-detailed" src="@product.Image"/>
+        </div>
+        <div class="right">
+            <div class="productname-detailed"> @product.Name</div>
+            <div class ="productdescription-detailed">@product.Description</div>
+            <div class ="productprice-detailed">@product.Price kr</div>
+            <button @onclick="AddToCart" class="cartbutton-detailed">Lägg till i varukorg</button>
+        </div>
+    </div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    public Product product { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        product = context.Products.Where(x => x.ID == id).FirstOrDefault();
+
+    }
+        private async void AddToCart()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            //Add to cart
+        }
+        else
+        {
+            Navigation.NavigateTo("/Identity/Account/Login", forceLoad: true);
+        }
+    }
+}

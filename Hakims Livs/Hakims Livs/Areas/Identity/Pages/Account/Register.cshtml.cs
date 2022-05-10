@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Configuration;
 
 namespace Hakims_Livs.Areas.Identity.Pages.Account
 {
@@ -79,12 +80,20 @@ namespace Hakims_Livs.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
-            public int? Age { get; set; }
+
+            [Range(18, 125, ErrorMessage = "Please enter a number between 18 and 125")]
+            public int Age { get; set; }
+
             [Required]
             public string City { get; set; }
+
             [Required]
             public string Address { get; set; }
+
             [Required]
+            [MaxLength(5, ErrorMessage = "Postal Code must be 5 numbers")]
+            [MinLength(5, ErrorMessage = "Postal Code must be 5 numbers")]
+            [RegularExpression("^[0-9]*$", ErrorMessage = "Postal Code can only be numeric")]
             public string PostalCode { get; set; }
         }
 

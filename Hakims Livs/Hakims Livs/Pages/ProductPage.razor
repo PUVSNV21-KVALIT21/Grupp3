@@ -3,10 +3,18 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc
 @using Microsoft.AspNetCore.Mvc.Rendering
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Data.ApplicationDbContext context
+
 @inject UserManager<Customer> UserManager
 @inject SignInManager<Customer> SignInManager
-@using Hakims_Livs.Models;
+@inject NavigationManager Navigation
+@using Hakims_Livs.Models
+@using Hakims_Livs.Services
+@inject IShowModal _showModal
+
 
 <PageTitle> Produkter </PageTitle>
     <select @onchange="ChangeSorting">
@@ -17,16 +25,19 @@
             <option value=@option>@option</option>
         }
     </select>
-    @foreach (var product in ProductList)
-        {
-            <div class="ProductDiv">
-                <img class ="ProductImage "src= "@product.Image" />
-                <div class ="ProductName"> @product.Name</div>
-                <div class ="ProductDescription">@product.Description</div>
-                <div class ="ProductPrice">@product.Price kr</div>
-                <div class ="AddToCartButton"><button @onclick="() => AddProductToShoppingCart(product)">Lägg till i varukorg</button></div>
-            </div>
-        }
+
+    <div class="productcontainer">
+        @foreach (var product in ProductList)
+            {
+                <div class="productdiv" @onclick="@(() => ShowProduct(product.ID))">
+                    <img class ="productimage "src= "@product.Image" />
+                    <div class ="productname">@product.Name</div>
+                    <div class ="productdescription">@product.Description</div>
+                    <div class ="productprice">@product.Price kr</div>
+                    <button @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
+                </div>
+            }
+    </div>
  
 @code {
 
@@ -48,11 +59,14 @@
     {
         options = new List<string>() { "Name", "Price", "Stock" };
         SelectedString = "Name";
-
         var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking().OrderBy(x => x.Name);
 
         ProductList = new List<Product>();
         ProductList = query.ToList();
+    }
+    void ShowProduct (int productId)
+    {
+        _showModal.DisplayModal(productId);
     }
     public async Task ChangeSorting(ChangeEventArgs e)
     {
@@ -77,6 +91,7 @@
         ProductList = await query.ToListAsync();
     }
 
+
     protected async Task GetCurrentUserAsync()
     {
         user = (await authenticationStateTask).User;
@@ -93,9 +108,23 @@
             ShoppingCart shoppingcart = new ShoppingCart();
             shoppingcart.ProductId = product.ID;
             shoppingcart.UserId = currentCustomer.Id;
-
+        }
             await context.ShoppingCarts.AddAsync(shoppingcart);
             await context.SaveChangesAsync();
+      }
+
+    private async void AddToCart()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            //Add to cart
+        }
+        else
+        {
+            Navigation.NavigateTo("/Identity/Account/Login", forceLoad: true);
+
         }
     }
 }
