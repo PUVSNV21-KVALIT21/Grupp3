@@ -12,7 +12,7 @@ namespace Hakims_Livs.Services
         void DisplayModal(int id);
     }
     public class ShowModal : IShowModal
-    {
+    {   
         private readonly IModalService _modalService;
         public ShowModal(IModalService modal)
         {
