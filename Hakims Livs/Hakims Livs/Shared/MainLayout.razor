@@ -15,10 +15,20 @@
         <div class="top-row px-4 auth">
             <div class ="searchbar">
             <BlazoredTypeahead SearchMethod="AutoSearch" @bind-Value="SelectedProduct">
-                <SelectedTemplate>@context.Name</SelectedTemplate>
-                <ResultTemplate><img src="@context.Image" width="40" height="40"/> @context.Name</ResultTemplate>
+                    <SelectedTemplate>@if (context != null)
+                        {
+                            @context.Name
+                        }
+                        </SelectedTemplate>
+                    <ResultTemplate><img src="@context.Image" width="40" height="40"/> @context.Name</ResultTemplate>
             </BlazoredTypeahead>
             </div>
+            @if (SelectedProduct != null)
+            {
+                ShowProduct(SelectedProduct.ID);
+                //Reseting selected product so it doesnt keep showing up when switching tab
+                SelectedProduct = null;
+            }
         <form>
             <NavLink href="shoppingcart" >
             <button class="ShoppingcartButton">Kundvagnen</button>
@@ -35,15 +45,11 @@
         <article class="content px-4">
             @Body
         </article>
-        @if (SelectedProduct != null)
-        {
-            ShowProduct(SelectedProduct.ID);
-        }
     </main>
 </div>
 @code {
-    private List<Product> products;
-    private Product SelectedProduct;
+    private List<Product>? products;
+    public Product? SelectedProduct;
 
     protected override void OnInitialized()
     {
