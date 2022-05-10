@@ -4,6 +4,7 @@
 @inject Data.ApplicationDbContext context
 @inherits LayoutComponentBase
 @inject IShowModal _showModal
+@inject ICart _cart
 <PageTitle>Hakim Livs</PageTitle>
 
 <div class="page">
@@ -31,7 +32,7 @@
             }
         <form>
             <NavLink href="shoppingcart" >
-            <button class="ShoppingcartButton">Kundvagnen</button>
+            <button class="ShoppingcartButton">Kundvagnen @totalCost</button>
             </NavLink>
 
             <NavLink href="checkout" >
@@ -50,11 +51,13 @@
 @code {
     private List<Product>? products;
     public Product? SelectedProduct;
-
-    protected override void OnInitialized()
+    public double totalCost { get; set; }
+    protected override async void OnInitialized()
     {
         products = new List<Product>();
         products = context.Products.ToList();
+        totalCost = await _cart.UpdateCartPrice();
+
     }
     private async Task<IEnumerable<Product>> AutoSearch(string searchProduct)
     {
@@ -64,4 +67,5 @@
     {
         _showModal.DisplayModal(productId);
     }
+
 }

@@ -10,6 +10,7 @@ namespace Hakims_Livs.Services
     {
         public Task AddProductToShoppingCart(Product product);
         public Task RemoveProduct (Product product);
+        public Task<double> UpdateCartPrice();
     }
     public class Cart : ICart
     {
@@ -24,7 +25,7 @@ namespace Hakims_Livs.Services
         }
         public async Task AddProductToShoppingCart(Product product)
         {
-            currentCustomer = await _user.GetCurrentUserAsync();;
+            currentCustomer = await _user.GetCurrentUserAsync();
             ShoppingCart shoppingcart = new ShoppingCart();
             shoppingcart.ProductId = product.ID;
             shoppingcart.UserId = currentCustomer.Id;
@@ -39,6 +40,20 @@ namespace Hakims_Livs.Services
 
             _context.ShoppingCarts.Remove(shoppinglistToRemove);
             await _context.SaveChangesAsync();
+        }
+        public async Task<double> UpdateCartPrice()
+        {
+            double totalCost = 0;
+            currentCustomer = await _user.GetCurrentUserAsync();
+            if (currentCustomer != null)
+            {
+                var ShoppingList = _context.ShoppingCarts.Where(x => x.UserId == currentCustomer.Id).Select(x => x.Product.Price).ToList();
+                foreach (var item in ShoppingList)
+                {
+                    totalCost += item;
+                }
+            }
+                return totalCost;
         }
     }
 }
