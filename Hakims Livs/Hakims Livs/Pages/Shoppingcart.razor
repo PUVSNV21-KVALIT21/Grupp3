@@ -4,6 +4,7 @@
 @using Hakims_Livs.Models
 @using Hakims_Livs.Services
 @inject IUser _user
+@inject ICart _cart
 
 @page "/shoppingcart"
 
@@ -38,14 +39,9 @@
     private System.Security.Claims.ClaimsPrincipal user { get; set; }
     private Customer currentCustomer { get; set; }
 
-    protected async Task GetCurrentUserAsync()
-    {
-        currentCustomer = await _user.GetCurrentUserAsync();
-    }
-
     protected override async Task OnParametersSetAsync()
     {
-        await GetCurrentUserAsync();
+        currentCustomer = await _user.GetCurrentUserAsync();
 
         ShoppingList = new List<ShoppingCart>();
 
@@ -62,15 +58,10 @@
             }
         }
     }
+
     public async Task RemoveProduct(Product product)
     {
-        //find the shoppinglist with the chosen product
-        var shoppinglistToRemove = context.ShoppingCarts.FirstOrDefault(s=> s.Product == product);
-
-        context.ShoppingCarts.Remove(shoppinglistToRemove);
-        await context.SaveChangesAsync();
+        await _cart.RemoveProduct(product);
         await OnParametersSetAsync();
-
     }
-  
 }

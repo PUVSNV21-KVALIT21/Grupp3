@@ -9,6 +9,7 @@ namespace Hakims_Livs.Services
     public interface ICart
     {
         public Task AddProductToShoppingCart(Product product);
+        public Task RemoveProduct (Product product);
     }
     public class Cart : ICart
     {
@@ -29,6 +30,14 @@ namespace Hakims_Livs.Services
             shoppingcart.UserId = currentCustomer.Id;
 
             await _context.ShoppingCarts.AddAsync(shoppingcart);
+            await _context.SaveChangesAsync();
+        }
+        public async Task RemoveProduct(Product product)
+        {
+            //find the shoppinglist with the chosen product
+            var shoppinglistToRemove = _context.ShoppingCarts.FirstOrDefault(s => s.Product == product);
+
+            _context.ShoppingCarts.Remove(shoppinglistToRemove);
             await _context.SaveChangesAsync();
         }
     }
