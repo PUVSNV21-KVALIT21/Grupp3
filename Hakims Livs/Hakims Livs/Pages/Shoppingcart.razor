@@ -1,7 +1,63 @@
-﻿@page "/shoppingcart"
+﻿@inject Data.ApplicationDbContext context
+@inject UserManager<Customer> UserManager
+@using Microsoft.AspNetCore.Identity
+@using Hakims_Livs.Models
+
+@page "/shoppingcart"
+
 <h3>Kundvagnen</h3>
-<h5>Här kan du se alla varor i din kundvagn</h5>
+
+<AuthorizeView>
+    <Authorized>
+        <h5>Hej, @context.User.Identity?.Name</h5>
+
+        @foreach (var product in ProductList)
+        {
+            <div class="ProductDiv">
+                <img class="ProductImage " src="@product.Image" />
+                <div class="ProductName"> @product.Name</div>
+                <div class="ProductDescription">@product.Description</div>
+                <div class="ProductPrice">@product.Price kr</div>
+            </div>
+        }
+
+    </Authorized>
+</AuthorizeView>
 
 @code {
+    //list with user id and product id
+    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
 
+    public List<Product> ProductList = new List<Product>();
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private System.Security.Claims.ClaimsPrincipal user { get; set; }
+    private Customer currentCustomer { get; set; }
+
+    protected async Task GetCurrentUserAsync()
+    {
+        user = (await authenticationStateTask).User;
+        currentCustomer = await UserManager.GetUserAsync(user);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetCurrentUserAsync();
+
+        ShoppingList = new List<ShoppingCart>();
+
+        if (currentCustomer != null)
+        {
+            //create a list with all shoppinglists where the user id match the loged in user
+            ShoppingList = context.ShoppingCarts.Where(s => s.UserId == currentCustomer.Id).ToList();
+
+            ProductList = new List<Product>();
+            foreach (var productId in ShoppingList)
+            {
+                var thisProduct = context.Products.First(p => p.ID == productId.ProductId);
+                ProductList.Add(thisProduct);
+            }
+        }
+    }
 }
