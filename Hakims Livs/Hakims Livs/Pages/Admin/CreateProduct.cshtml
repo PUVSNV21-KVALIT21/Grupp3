@@ -1,5 +1,5 @@
-﻿@page "/create"
-@model Hakims_Livs.Pages.Admin.CreateModel
+﻿@page "/createproduct"
+@model Hakims_Livs.Pages.Admin.CreateProductModel
 @{
 }
 <link rel="stylesheet" href="~/css/site.css" />
@@ -39,7 +39,7 @@
                 <select asp-for="category.ID" asp-items="Model.categoryList"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="cartbutton" />
             </div>
         </form>
     </div>

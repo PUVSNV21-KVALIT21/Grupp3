@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Hakims_Livs.Pages.Admin
 {
-    public class CreateModel : PageModel
+    public class CreateProductModel : PageModel
     {
         public List<Category> categories { get; set; }
         private readonly ApplicationDbContext _context;
@@ -17,7 +17,7 @@ namespace Hakims_Livs.Pages.Admin
         public List<SelectListItem> categoryList { get; set; }
         [FromQuery]
         public Category category { get; set; }
-        public CreateModel(ApplicationDbContext context, IAdmin admin)
+        public CreateProductModel(ApplicationDbContext context, IAdmin admin)
         {
             _context = context;
             _admin = admin;

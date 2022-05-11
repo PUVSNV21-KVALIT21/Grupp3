@@ -5,11 +5,11 @@
 @inject ApplicationDbContext _context
 @inject NavigationManager NavigationManager
 
+<div style="text-align: center; padding: 30px;">
 <h3>Admin</h3>
-
-<button class="cartbutton" @onclick="CreateProduct">Create Product</button>
-<button class="cartbutton" @onclick="CreateCategory">Create Category</button>
-
+<button class="cartbutton" @onclick="CreateProduct" style="margin: 10px;">Create Product</button>
+<button class="cartbutton" @onclick="CreateCategory" style="margin: 10px;">Create Category</button>
+</div>
     <div class="productcontainer">
         @foreach (var product in products)
             {
@@ -37,11 +37,11 @@
 
     public async Task CreateProduct()
     {
-        NavigationManager.NavigateTo("/create", forceLoad: true);
+        NavigationManager.NavigateTo("/createproduct", forceLoad: true);
     }
     public async Task CreateCategory()
     {
-
+        NavigationManager.NavigateTo("/createcategory", forceLoad: true);
     }
     public async Task RemoveProduct(Product product)
     {
