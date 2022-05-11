@@ -1,0 +1,122 @@
+﻿@layout BlankLayout
+@inject IUser _user
+@inject ICart _cart
+@page "/invoice"
+
+<body onload="window.print()">
+    <h1 class="display-2">Hakim Livs</h1>
+    <h1 class="display-5">Faktura</h1>
+
+
+    <div class="container px-4">
+        <div class="row gx-5">
+            <div class="col">
+                <div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Kund:</th>
+                                <td>@currentCustomer.FirstName @currentCustomer.LastName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Adress:</th>
+                                <td>@currentCustomer.Address @currentCustomer.City @currentCustomer.PostalCode</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Betalaningsdatum:</th>
+                                <td> 30 dagar</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col">
+                <div class="p-3 border bg-light">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Att betala:</th>
+                                <td>@totalCart</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Kontonummer:</th>
+                                <td>12345678</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">OCR-nummer:</th>
+                                <td>@currentCustomer.Email</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+
+                <th scope="col">Produkt</th>
+                <th scope="col">Antal</th>
+                <th scope="col">Pris/styck</th>
+                <th scope="col">Totalt</th>
+            </tr>
+        </thead>
+        @foreach (var product in ProductList)
+        {
+            <tbody>
+                <tr>
+                    <th scope="row"></th>
+                    <td>@product.Name</td>
+                    <td>1</td>
+                    <td>@product.Price</td>
+                    <td>@product.Price</td>
+                </tr>
+            </tbody>
+        }
+        <tfoot>
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <th>Summa att betala:</th>
+                <td>@totalCart kr</td>
+            </tr>
+        </tfoot>
+    </table>
+
+</body>
+
+@code {
+
+    //list with user id and product id
+    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
+
+    public List<Product> ProductList = new List<Product>();
+
+    private Customer currentCustomer { get; set; }
+    public double totalCart;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        currentCustomer = await _user.GetCurrentUserAsync();
+        totalCart = await _cart.UpdateCartPrice();
+
+        ShoppingList = new List<ShoppingCart>();
+
+        if (currentCustomer != null)
+        {
+            //create a list with all shoppinglists where the user id match the loged in user
+            ShoppingList = context.ShoppingCarts.Where(s => s.UserId == currentCustomer.Id).ToList();
+
+            ProductList = new List<Product>();
+            foreach (var productId in ShoppingList)
+            {
+                var thisProduct = context.Products.First(p => p.ID == productId.ProductId);
+                ProductList.Add(thisProduct);
+            }
+        }
+    }
+}
