@@ -1,6 +1,83 @@
-﻿@page "/checkout"
+﻿@inject IJSRuntime IJS
+@inject IUser _user
+@inject ICart _cart
+
+@page "/checkout"
+
 <h3>Kassan</h3>
+<AuthorizeView>
+    <Authorized>
+        <h5>Hej, @context.User.Identity?.Name</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+
+                    <th scope="col">Produkt</th>
+                    <th scope="col">Antal</th>
+                    <th scope="col">Pris/styck</th>
+                    <th scope="col">Totalt</th>
+                </tr>
+            </thead>
+            @foreach (var product in ProductList)
+            {
+                <tbody>
+                    <tr>
+                        <th scope="row"></th>
+                        <td>@product.Name</td>
+                        <td>1</td>
+                        <td>@product.Price</td>
+                        <td>@product.Price</td>
+                    </tr>
+                </tbody>
+            } @*loopa genom shoppinglistorna och skapa flera rader beroende p åhur många prosukter som finns*@
+            <tfoot>
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <th>Summa att betala:</th>
+                    <td>@totalCart</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <button @onclick="PrintDocument">Skriv ut din faktura</button>
+    </Authorized>
+</AuthorizeView>
+
+
 
 @code {
+    //list with user id and product id
+    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
+
+    public List<Product> ProductList = new List<Product>();
+
+    private Customer currentCustomer { get; set; }
+    public double totalCart;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        currentCustomer = await _user.GetCurrentUserAsync();
+        totalCart = await _cart.UpdateCartPrice();
+
+        ShoppingList = new List<ShoppingCart>();
+
+        if (currentCustomer != null)
+        {
+            //create a list with all shoppinglists where the user id match the loged in user
+            ShoppingList = context.ShoppingCarts.Where(s => s.UserId == currentCustomer.Id).ToList();
+
+            ProductList = new List<Product>();
+            foreach (var productId in ShoppingList)
+            {
+                var thisProduct = context.Products.First(p => p.ID == productId.ProductId);
+                ProductList.Add(thisProduct);
+            }
+        }
+    }
+    public async Task PrintDocument() => await IJS.InvokeAsync<object>("open", new object[] { "/invoice" });
 
 }
