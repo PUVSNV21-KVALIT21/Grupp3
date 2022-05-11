@@ -11,10 +11,11 @@
 @inject SignInManager<Customer> SignInManager
 @inject NavigationManager Navigation
 @using Hakims_Livs.Models
-@using Hakims_Livs.Services
+@using Hakims_Livs.Pages
 @inject IShowModal _showModal
 @inject IUser _user
 @inject ICart _cart
+
 
 
 <PageTitle> Produkter </PageTitle>
@@ -96,6 +97,7 @@
         if (currentCustomer != null)
         {
             await _cart.AddProductToShoppingCart(product);
+            Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
         }
         else
         {

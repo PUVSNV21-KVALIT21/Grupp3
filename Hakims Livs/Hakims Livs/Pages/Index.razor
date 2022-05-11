@@ -3,6 +3,7 @@
 @using Hakims_Livs.Data
 @using Hakims_Livs.Models
 
+
 <PageTitle>Index</PageTitle>
 
 <h1>Hejsan Svejsan!</h1>
@@ -18,7 +19,6 @@ Välkommen till Hakims...
         LoadExampleData(context);
         return base.OnInitializedAsync();
     }
-
     public static async Task LoadExampleData(ApplicationDbContext context)
     {
         if (!context.Products.Any())
