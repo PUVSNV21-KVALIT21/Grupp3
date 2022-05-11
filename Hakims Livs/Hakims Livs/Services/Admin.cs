@@ -8,6 +8,7 @@ namespace Hakims_Livs.Services
         public Task CreateProduct(Product product);
         public Task CreateCategory(string name);
         public Task DeleteProduct(Product product);
+        public Task DeleteCategory(Category category);
     }
     public class Admin : IAdmin
     {
@@ -45,6 +46,12 @@ namespace Hakims_Livs.Services
         {
             var productToDelete = _context.Products.Where(x => x.ID == product.ID).FirstOrDefault();
             _context.Products.Remove(productToDelete);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteCategory(Category category)
+        {
+            var categoryToDelete = _context.Categories.Where(x => x.ID == category.ID).FirstOrDefault();
+            _context.Categories.Remove(categoryToDelete);
             await _context.SaveChangesAsync();
         }
     }

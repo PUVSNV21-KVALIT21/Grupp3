@@ -7,6 +7,7 @@
 
 <div style="text-align: center; padding: 30px;">
 <h3>Admin</h3>
+<h3>Total Products: @TotalProducts</h3>
 <button class="cartbutton" @onclick="CreateProduct" style="margin: 10px;">Create Product</button>
 <button class="cartbutton" @onclick="CreateCategory" style="margin: 10px;">Create Category</button>
 </div>
@@ -24,15 +25,30 @@
                 </div>
             }
     </div>
+    <div class="productcontainer">
+        @foreach (var category in categories)
+        {
+            <div class="productdiv">
+                <div>@category.Name</div>
+                <button @onclick="() => RemveCategory(category)" class="cartbutton">Ta Bort</button>
+            </div>
+        }
+    </div>
+    
 @code {
     [Parameter]
     public Product product { get; set; }
     public List<Product> products { get; set; }
+    public int TotalProducts { get; set; }
+    public List<Category> categories { get; set; }
 
     protected override void OnParametersSet()
     {
         products = new List<Product>();
+        categories = new List<Category>();
         products = _context.Products.AsNoTracking().OrderBy(x => x.Name).ToList();
+        categories = _context.Categories.AsNoTracking().OrderBy(x => x.Name).ToList();
+        TotalProducts = _context.Products.Count();
     }
 
     public async Task CreateProduct()
@@ -46,6 +62,12 @@
     public async Task RemoveProduct(Product product)
     {
         await _admin.DeleteProduct(product);
+        await OnParametersSetAsync();
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+    public async Task RemveCategory(Category category)
+    {
+        await _admin.DeleteCategory(category);
         await OnParametersSetAsync();
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
     }
