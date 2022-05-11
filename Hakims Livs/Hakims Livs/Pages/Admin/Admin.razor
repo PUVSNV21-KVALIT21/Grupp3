@@ -8,9 +8,10 @@
 <div style="text-align: center; padding: 30px;">
 <h3>Admin</h3>
 <h3>Total Products: @TotalProducts</h3>
-<button class="cartbutton" @onclick="CreateProduct" style="margin: 10px;">Create Product</button>
-<button class="cartbutton" @onclick="CreateCategory" style="margin: 10px;">Create Category</button>
+<button class="cartbutton" @onclick="CreateProduct" style="margin: 10px;">Skapa Produkt</button>
+<button class="cartbutton" @onclick="CreateCategory" style="margin: 10px;">Skapa Kategori</button>
 </div>
+        <h3 style="text-align: center; padding-bottom: 20px;">Produkter</h3>
     <div class="productcontainer">
         @foreach (var product in products)
             {
@@ -25,6 +26,7 @@
                 </div>
             }
     </div>
+    <h3 style="text-align: center; padding: 30px;">Kategorier</h3>
     <div class="productcontainer">
         @foreach (var category in categories)
         {
