@@ -35,12 +35,16 @@
             }
         <form>
             <NavLink href="shoppingcart" >
-            <button class="ShoppingcartButton">Kundvagnen @totalCart</button>
+            <button class="ShoppingcartButton">Kundvagnen</button>
             </NavLink>
 
             <NavLink href="checkout" >
-            <button class="CheckoutButton">Till Kassan</button>
-            </NavLink>
+                    <button class="cartbutton">Till Kassan: @if (@totalCart > 0)
+                        {
+                            @totalCart
+                        }
+                        </button>
+                </NavLink>
         </form>
             <LoginDisplay /> 
           
