@@ -34,12 +34,12 @@
                 SelectedProduct = null;
             }
         <form>
-            <NavLink href="shoppingcart" >
-            <button class="ShoppingcartButton">Kundvagnen</button>
+            <NavLink href="shoppingcart">
+            <button class="ShoppingcartButton navlink">Kundvagnen</button>
             </NavLink>
 
             <NavLink href="checkout" >
-                    <button class="create">Till Kassan: @if (@totalCart > 0)
+                    <button class="create navlink">Till Kassan: @if (@totalCart > 0)
                         {
                             @totalCart
                         }
