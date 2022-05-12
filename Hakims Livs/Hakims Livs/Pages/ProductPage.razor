@@ -27,7 +27,6 @@
             <option value=@option>@option</option>
         }
     </select>
-
     <div class="productcontainer">
         @foreach (var product in ProductList)
             {
@@ -41,7 +40,7 @@
                     <button @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
                 </div>
             }
-    </div>
+        </div>
  
 @code {
 
