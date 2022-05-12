@@ -2,22 +2,63 @@
 @page "/"
 @using Hakims_Livs.Data
 @using Hakims_Livs.Models
-
+@inject ApplicationDbContext _context
+@inject IShowModal _showModal
+@inject IUser _user
+@inject ICart _cart
+@inject NavigationManager Navigation
+ 
 <PageTitle>Index</PageTitle>
 
 <h1 style="text-align:center">Välkommen till Hakim Livs</h1>
 
 <h2 style="text-align:center">Dagens Produkter</h2>
 
+    <div class="productcontainer">
+        @foreach (var product in products)
+            {
+                <div class="productdiv">
+                    <div class ="onclick" @onclick="@(() => ShowProduct(product.ID))">
+                    <img class ="productimage "src= "@product.Image" />
+                    <div class ="productname">@product.Name</div>
+                    <div class ="productdescription">@product.Description</div>
+                    <div class ="productprice">@product.Price kr</div>
+                    </div>
+                    <button @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
+                </div>
+            }
+        </div>
 
 @code {
-
+    public Guid guid {get; set; }
     public Category category { get; set; }
+    public List<Product> products { get; set; }
+    public Customer currentCustomer { get; set; }
 
     protected override Task OnInitializedAsync()
     {
         LoadCsvFile(context);
+        products = new List<Product>();
+        products = _context.Products.OrderBy(x => Guid.NewGuid()).Take(12).ToList();
         return base.OnInitializedAsync();
+    }
+        void ShowProduct (int productId)
+    {
+        _showModal.DisplayModal(productId);
+    }    
+    public async Task AddProductToShoppingCart(Product product)
+    {
+        currentCustomer = await _user.GetCurrentUserAsync();
+
+        if (currentCustomer != null)
+        {
+            await _cart.AddProductToShoppingCart(product);
+            Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+        }
+        else
+        {
+            Navigation.NavigateTo("/Identity/Account/Login", forceLoad: true);
+        }
     }
 
     public static async Task LoadCsvFile(ApplicationDbContext context)
