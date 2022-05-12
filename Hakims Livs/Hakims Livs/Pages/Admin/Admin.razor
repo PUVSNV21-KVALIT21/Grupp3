@@ -1,0 +1,76 @@
+﻿@page "/admin"
+@using Microsoft.AspNetCore.Mvc
+@inject IAdmin _admin
+@inject IModalService _modal
+@inject ApplicationDbContext _context
+@inject NavigationManager NavigationManager
+
+<div style="text-align: center; padding: 30px;">
+<h3>Admin</h3>
+<h3>Total Products: @TotalProducts</h3>
+<button class="cartbutton" @onclick="CreateProduct" style="margin: 10px;">Skapa Produkt</button>
+<button class="cartbutton" @onclick="CreateCategory" style="margin: 10px;">Skapa Kategori</button>
+</div>
+        <h3 style="text-align: center; padding-bottom: 20px;">Produkter</h3>
+    <div class="productcontainer">
+        @foreach (var product in products)
+            {
+                <div class="productdiv">
+                    <div class ="onclick">
+                    <img class ="productimage "src= "@product.Image" />
+                    <div class ="productname">@product.Name</div>
+                    <div class ="productdescription">@product.Description</div>
+                    <div class ="productprice">@product.Price kr</div>
+                    </div>
+                    <button @onclick="() => RemoveProduct(product)" class="cartbutton">Ta Bort</button>
+                </div>
+            }
+    </div>
+    <h3 style="text-align: center; padding: 30px;">Kategorier</h3>
+    <div class="productcontainer">
+        @foreach (var category in categories)
+        {
+            <div class="productdiv">
+                <div>@category.Name</div>
+                <button @onclick="() => RemveCategory(category)" class="cartbutton">Ta Bort</button>
+            </div>
+        }
+    </div>
+    
+@code {
+    [Parameter]
+    public Product product { get; set; }
+    public List<Product> products { get; set; }
+    public int TotalProducts { get; set; }
+    public List<Category> categories { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        products = new List<Product>();
+        categories = new List<Category>();
+        products = _context.Products.AsNoTracking().OrderBy(x => x.Name).ToList();
+        categories = _context.Categories.AsNoTracking().OrderBy(x => x.Name).ToList();
+        TotalProducts = _context.Products.Count();
+    }
+
+    public async Task CreateProduct()
+    {
+        NavigationManager.NavigateTo("/createproduct", forceLoad: true);
+    }
+    public async Task CreateCategory()
+    {
+        NavigationManager.NavigateTo("/createcategory", forceLoad: true);
+    }
+    public async Task RemoveProduct(Product product)
+    {
+        await _admin.DeleteProduct(product);
+        await OnParametersSetAsync();
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+    public async Task RemveCategory(Category category)
+    {
+        await _admin.DeleteCategory(category);
+        await OnParametersSetAsync();
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+}
