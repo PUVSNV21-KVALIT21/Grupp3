@@ -248,8 +248,13 @@ form {
 .right {
     max-width: 275px;
 }
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1200px) {
     .navlink {
+        display: none;
+    }
+}
+@media screen and (max-width: 900px){
+    .username {
         display: none;
     }
 }
