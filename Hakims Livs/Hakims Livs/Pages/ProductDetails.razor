@@ -9,6 +9,8 @@
 @inject NavigationManager Navigation
 @using Hakims_Livs.Models
 @inject IModalService modal
+@inject IUser _user
+@inject ICart _cart
 
     <div class="productcontainer-detailed">
         <div class="left">
@@ -26,6 +28,7 @@
     [Parameter]
     public int id { get; set; }
     public Product product { get; set; }
+    public Customer currentCustomer { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -34,11 +37,12 @@
     }
         private async void AddToCart()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        if (user.Identity.IsAuthenticated)
+        currentCustomer = await _user.GetCurrentUserAsync();
+
+        if (currentCustomer != null)
         {
-            //Add to cart
+            await _cart.AddProductToShoppingCart(product);
+            Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
         }
         else
         {
