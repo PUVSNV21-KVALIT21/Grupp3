@@ -1,10 +1,18 @@
 ﻿@page "/admin"
 @using Microsoft.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Identity
+@using Hakims_Livs.Models
+@using Hakims_Livs.Services
 @inject IAdmin _admin
 @inject IModalService _modal
 @inject ApplicationDbContext _context
 @inject NavigationManager NavigationManager
+@inject UserManager<Customer> UserManager
+@inject RoleManager<IdentityRole> _RoleManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
+<AuthorizeView Roles="Admin">
+    <Authorized>
 <div style="text-align: center; padding: 30px;">
 <h3>Admin</h3>
 <h3>Total Products: @TotalProducts</h3>
@@ -36,13 +44,18 @@
             </div>
         }
     </div>
-    
+        </Authorized>
+ </AuthorizeView>
 @code {
     [Parameter]
     public Product product { get; set; }
     public List<Product> products { get; set; }
     public int TotalProducts { get; set; }
     public List<Category> categories { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    string AdminRole = "Admin";
+    System.Security.Claims.ClaimsPrincipal CurrentUser;
 
     protected override void OnParametersSet()
     {
@@ -52,7 +65,39 @@
         categories = _context.Categories.AsNoTracking().OrderBy(x => x.Name).ToList();
         TotalProducts = _context.Products.Count();
     }
+        protected override async Task OnInitializedAsync()
+    {
+        if (context.Customers.Where(cu => cu.Email == "admin1@example.com").Count() < 1)
+        {
+            var adminRole = new Microsoft.AspNetCore.Identity.IdentityRole("Admin");
+            await context.Roles.AddAsync(adminRole);
+            await context.SaveChangesAsync();
+            var adminEmail = "admin1@example.com";
+            var admin = new Customer()
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    EmailConfirmed = true,
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Age = 30,
+                    City = "stockholm",
+                    Address = "en bra gata",
+                    PostalCode = "12344"
+                };
+            context.Customers.Add(admin);
+            await UserManager.CreateAsync(admin, "Test123!");
 
+            var addrole = new Microsoft.AspNetCore.Identity.IdentityUserRole<string>()
+                {
+                    RoleId = adminRole.Id,
+                    UserId = admin.Id
+                };
+            await context.UserRoles.AddAsync(addrole);
+            await context.SaveChangesAsync();
+        }
+
+    }
     public async Task CreateProduct()
     {
         NavigationManager.NavigateTo("/createproduct", forceLoad: true);
