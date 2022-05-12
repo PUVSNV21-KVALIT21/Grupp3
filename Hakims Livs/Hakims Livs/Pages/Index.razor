@@ -3,88 +3,77 @@
 @using Hakims_Livs.Data
 @using Hakims_Livs.Models
 
-
 <PageTitle>Index</PageTitle>
 
-<h1>Hejsan Svejsan!</h1>
+<h1 style="text-align:center">Välkommen till Hakim Livs</h1>
 
-Välkommen till Hakims...
+<h2 style="text-align:center">Dagens Produkter</h2>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
 
+    public Category category { get; set; }
+
     protected override Task OnInitializedAsync()
     {
-        LoadExampleData(context);
+        LoadCsvFile(context);
         return base.OnInitializedAsync();
     }
-    public static async Task LoadExampleData(ApplicationDbContext context)
+
+    public static async Task LoadCsvFile(ApplicationDbContext context)
     {
         if (!context.Products.Any())
         {
-            
-                var Frukt = new Category
-                    {
-                        Name = "Frukt"
-                    };
-                var Läsk = new Category
-                    {
-                        Name = "Läsk"
-                    };
-                   
-               var apple = new Product
-                {
-                    Name = "Apple",
-                    CategoryName = Frukt,
-                    ProductCode = "F01",
-                    Description = "Juicy, sweet and delicious apple",
-                    Image = "images/apple.jpg",
-                    Price = 5
-                };
-                var pepsi = new Product
-                {
-                    Name = "Pepsi",
-                    CategoryName = Läsk,
-                    ProductCode = "D01",
-                    Description = "Juicy, sweet and delicious beverage",
-                    Image = "images/pepsi.jpg",
-                    Price = 15
-                };
-                var cola = new Product
-                {
-                    Name = "Cola",
-                    CategoryName = Läsk,
-                    ProductCode = "D02",
-                    Description = "Juicy, sweet and delicious beverage",
-                    Image = "images/cola.jpg",
-                    Price = 15
-                };
-                var fanta = new Product
-                {
-                    Name = "Fanta",
-                    CategoryName = Läsk,
-                    ProductCode = "D03",
-                    Description = "Juicy, sweet and delicious beverage",
-                    Image = "images/fanta.jpg",
-                    Price = 15
-                };
-                var appelsin = new Product
-                {
-                    Name = "Fanta",
-                    CategoryName = Frukt,
-                    ProductCode = "F02",
-                    Description = "Juicy, sweet and delicious orange",
-                    Image = "images/orange.jpg",
-                    Price = 15
-                };
-                context.Products.Add(apple);
-                context.Products.Add(pepsi);
-                context.Products.Add(cola);
-                context.Products.Add(fanta);
-                context.Products.Add(appelsin);
+            var nameList = new List<string>();
+            var catList = new List<string>();
+            var codeList = new List<string>();
+            var desList = new List<string>();
+            var imgList = new List<string>();
+            var priceList = new List<double>();
+
+            string[] csvLines = System.IO.File.ReadAllLines(@"ExampleData.csv");
+            string[] testLines = System.IO.File.ReadAllLines(@"Categories.csv");
+
+            for (int i = 0; i < csvLines.Length; i++)
+            {
+                string[] rowData = csvLines[i].Split('|');
+
+                nameList.Add(rowData[0]);
+                catList.Add(rowData[1]);
+                codeList.Add(rowData[2]);
+                desList.Add(rowData[3]);
+                imgList.Add(rowData[4]);
+
+                double prices = Convert.ToDouble(rowData[5]);
+                priceList.Add(prices);
+            }
+
+            for(int i = 0; i < testLines.Length; i++)
+            {
+                Category category = new Category                
+                 {
+                    Name = testLines[i]
+                  };
+                context.Categories.Add(category);
                 context.SaveChanges();
-            
+            }
+
+            for (int i = 0; i < csvLines.Length; i++)
+            {               
+                var product = new Product
+                    {
+                        Name = nameList[i],
+                        CategoryName = context.Categories.Where(c => c.Name == catList[i]).FirstOrDefault(), 
+                        ProductCode = codeList[i],
+                        Description = desList[i],
+                        Image = imgList[i],
+                        Price = priceList[i]
+                    };
+                context.Products.Add(product);
+                context.SaveChanges();
+            }
         }
-        }
+
     }
+    }
+
