@@ -28,7 +28,21 @@
            <NavLink class="nav-link" href="checkout">
                <span class="oi oi-list-rich" aria-hidden="true"></span> Till kassan
            </NavLink>
+       </div>         
+       <div class="nav-item px-3">
+           <NavLink class="nav-link" href="shoppingcart">
+               <span class="oi oi-list-rich" aria-hidden="true"></span> Till vaurkorgen
+           </NavLink>
        </div>
+       <AuthorizeView>
+           <Authorized>
+            <div class="nav-item px-3">
+               <NavLink class="nav-link" href="Identity/Account/Manage">
+                   <span class="oi oi-list-rich" aria-hidden="true"></span> Mitt Konto
+               </NavLink>
+            </div>
+           </Authorized>
+       </AuthorizeView>
        <AuthorizeView Roles="Admin">
             <Authorized>
           <div class="nav-item px-3">
