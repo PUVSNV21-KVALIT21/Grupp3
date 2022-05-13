@@ -46,10 +46,19 @@
        <AuthorizeView Roles="Admin">
             <Authorized>
           <div class="nav-item px-3">
-           <NavLink class="nav-link" href="admin">
+           <NavLink class="navbar-expand-sm" href="admin" @onclick="()=>submenu=!submenu">
                <span class="oi oi-list-rich" aria-hidden="true"></span> Admin
            </NavLink>
        </div>
+       @if(submenu)
+                {
+                    <div class="nav-item px-3">
+                       <NavLink class="nav-link" href="orders">
+                           <span class="oi oi-list-rich" aria-hidden="true"></span> Beställningar
+                       </NavLink>
+                   </div>
+                    
+                }
             </Authorized>
        </AuthorizeView>
     </nav>
@@ -57,6 +66,7 @@
 
 @code {
     private bool collapseNavMenu = true;
+    private bool submenu;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

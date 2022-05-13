@@ -1,0 +1,87 @@
+﻿@page "/orders"
+@inject IJSRuntime IJS
+
+@inject IUser _user
+@inject ICart _cart
+
+ <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+
+                    <th scope="col">kund</th>
+                    <th scope="col">produkter</th>
+                </tr>
+            </thead>
+            @foreach (var customer in CustomerList)
+            {
+                ProductList=new List<Product>();
+
+                @foreach (var product in ShoppingList)
+                {
+                   if(product.User==customer)
+                   {
+                        ProductList.Add(product.Product);
+                   }
+                }
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                                <td>@customer.FirstName @customer.LastName</td>
+                        </tr>
+
+                         @foreach(var item in ProductList)
+                        {
+
+                            <tr>
+                                <td></td>
+                                <td>@item.Name</td>
+                            </tr>
+                        
+                        }
+                         <tr>
+                            <td></td>
+                    
+                            <td>  <NavLink href=@($"invoice/{customer.Id}") >
+                                <button  @onclick="PrintDocument">Skriv ut din ordern</button>
+                                </NavLink>
+                            </td>
+                         </tr>
+                  
+                    </tbody>
+
+
+
+            } 
+ 
+        </table>
+@code {
+   
+    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
+
+    public List<Product> ProductList = new List<Product>();
+    public List<Customer> CustomerList = new List<Customer>();
+
+
+    public async Task PrintDocument() => await IJS.InvokeAsync<object>("open", new object[] { "/invoice" });
+
+    protected override async Task OnParametersSetAsync()
+    {
+       // _cart.UpdateCartPrice();
+
+        ShoppingList = new List<ShoppingCart>();
+        CustomerList = new List<Customer>();
+        ProductList = new List<Product>();
+
+
+        ShoppingList = context.ShoppingCarts.OrderBy(s=>s.User).ToList();
+        CustomerList = context.Customers.ToList();
+        
+
+        
+        }
+    }
+
+
+
+

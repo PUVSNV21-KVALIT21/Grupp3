@@ -2,6 +2,8 @@
 @inject IUser _user
 @inject ICart _cart
 @page "/invoice"
+@page "/invoice/{id:string}"
+
 
 <body onload="window.print()">
     <h1 class="display-2">Hakim Livs</h1>
@@ -89,6 +91,8 @@
 </body>
 
 @code {
+      [Parameter]
+    public string? id { get; set; }
 
     //list with user id and product id
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
