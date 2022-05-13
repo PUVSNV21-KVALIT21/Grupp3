@@ -76,7 +76,7 @@
         products = _context.Products.OrderBy(x => Guid.NewGuid()).Take(12).ToList();
         return base.OnInitializedAsync();
     }
-        void ShowProduct (int productId)
+    void ShowProduct (int productId)
     {
         _showModal.DisplayModal(productId);
     }    

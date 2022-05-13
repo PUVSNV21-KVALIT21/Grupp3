@@ -24,9 +24,18 @@ namespace Hakims_Livs.Pages.Admin
         }
         public async Task<IActionResult> OnPostAsync(Category category)
         {
-            var name = category.Name;
-            await _admin.CreateCategory(name);
-            return Page();
+            try
+            {
+                var name = category.Name;
+                await _admin.CreateCategory(name);
+                return Page();
+            }
+            catch (Exception)
+            {
+
+                return Page();
+            }
+
         }
     }
 }

@@ -15,16 +15,20 @@
     <Authorized>
         <h5>Hej, @context.User.Identity?.Name</h5>
 
+    <div class="productcontainer">
         @foreach (var product in ProductList)
-        {
-            <div class="ProductDiv">
-                <img class="ProductImage " src="@product.Image" />
-                <div class="ProductName"> @product.Name</div>
-                <div class="ProductDescription">@product.Description</div>
-                <div class="ProductPrice">@product.Price kr</div>
-                <div class ="RemoveProductButton"><button @onclick="() => RemoveProduct(product)">Ta bort</button></div>
-            </div>
-        }
+            {
+                <div class="productdiv">
+                    <div class ="onclick">
+                    <img class ="productimage "src= "@product.Image" />
+                    <div class ="productname">@product.Name</div>
+                    <div class ="productdescription">@product.Description</div>
+                    <div class ="productprice">@product.Price kr</div>
+                    </div>
+                    <button @onclick="() => RemoveProduct(product)" class="cartbutton">Ta bort</button>
+                </div>
+            }
+        </div>
 
     </Authorized>
 </AuthorizeView>
