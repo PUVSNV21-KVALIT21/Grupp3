@@ -1,4 +1,6 @@
 ﻿@page "/createproduct"
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavManager
 @model Hakims_Livs.Pages.Admin.CreateProductModel
 @{
 }
@@ -39,8 +41,12 @@
                 <select asp-for="category.ID" asp-items="Model.categoryList"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="cartbutton" />
+                <input type="submit" value="Create" class="create" />
             </div>
         </form>
     </div>
 </div>
+<div>
+    <a href="~/">Hem</a>
+</div>
+

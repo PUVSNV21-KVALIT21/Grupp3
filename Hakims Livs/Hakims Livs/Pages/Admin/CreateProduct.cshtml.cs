@@ -6,6 +6,7 @@ using Hakims_Livs.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Components;
 
 namespace Hakims_Livs.Pages.Admin
 {
@@ -17,10 +18,12 @@ namespace Hakims_Livs.Pages.Admin
         public List<SelectListItem> categoryList { get; set; }
         [FromQuery]
         public Category category { get; set; }
-        public CreateProductModel(ApplicationDbContext context, IAdmin admin)
+        public NavigationManager _navigationManager;
+        public CreateProductModel(ApplicationDbContext context, IAdmin admin, NavigationManager navigationManager)
         {
             _context = context;
             _admin = admin;
+            _navigationManager = navigationManager;
         }
         public async Task OnGetAsync()
         {
