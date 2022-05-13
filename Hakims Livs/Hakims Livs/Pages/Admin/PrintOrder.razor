@@ -1,13 +1,14 @@
-﻿@layout BlankLayout
-@inject IUser _user
+﻿@inject IUser _user
 @inject ICart _cart
-@page "/invoice"
+@inject IJSRuntime IJS
 
+@page "/printorder"
+@page "/printorder/{Id}"
 
 
 <body onload="window.print()">
-    <h1 class="display-2">Hakim Livs</h1>
-    <h1 class="display-5">Faktura</h1>
+    <h1 class="display-2">Order</h1>
+   
 
 
     <div class="container px-4">
@@ -91,20 +92,29 @@
 </body>
 
 @code {
-  
+    [Parameter]
+    public string Id{ get; set; }
     //list with user id and product id
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
 
     public List<Product> ProductList = new List<Product>();
+    public Customer currentCustomer;
 
-    private Customer currentCustomer { get; set; }
     public double totalCart;
 
 
     protected override async Task OnParametersSetAsync()
     {
-        currentCustomer = await _user.GetCurrentUserAsync();
-        totalCart = await _cart.UpdateCartPrice();
+        currentCustomer = context.Customers.Where(c => c.Id == Id).FirstOrDefault();
+        totalCart = 0;
+        if (currentCustomer != null)
+        {
+            var ShoppingList = context.ShoppingCarts.Where(x => x.UserId == currentCustomer.Id).Select(x => x.Product.Price).ToList();
+            foreach (var item in ShoppingList)
+            {
+                totalCart += item;
+            }
+        }
 
         ShoppingList = new List<ShoppingCart>();
 
@@ -121,4 +131,5 @@
             }
         }
     }
+
 }
