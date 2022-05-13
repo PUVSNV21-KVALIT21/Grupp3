@@ -2,11 +2,16 @@
 @page "/"
 @using Hakims_Livs.Data
 @using Hakims_Livs.Models
+@using Microsoft.AspNetCore.Identity
 @inject ApplicationDbContext _context
+@inject IAdmin _admin
 @inject IShowModal _showModal
 @inject IUser _user
 @inject ICart _cart
 @inject NavigationManager Navigation
+@inject UserManager<Customer> UserManager
+@inject RoleManager<IdentityRole> _RoleManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
  
 <PageTitle>Index</PageTitle>
 
@@ -38,6 +43,35 @@
     protected override Task OnInitializedAsync()
     {
         LoadCsvFile(context);
+                if (context.Customers.Where(cu => cu.Email == "admin1@example.com").Count() < 1)
+        {
+            var adminRole = new Microsoft.AspNetCore.Identity.IdentityRole("Admin");
+            context.Roles.AddAsync(adminRole);
+            context.SaveChangesAsync();
+            var adminEmail = "admin1@example.com";
+            var admin = new Customer()
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    EmailConfirmed = true,
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Age = 30,
+                    City = "stockholm",
+                    Address = "en bra gata",
+                    PostalCode = "12344"
+                };
+            context.Customers.Add(admin);
+            UserManager.CreateAsync(admin, "Test123!");
+
+            var addrole = new Microsoft.AspNetCore.Identity.IdentityUserRole<string>()
+                {
+                    RoleId = adminRole.Id,
+                    UserId = admin.Id
+                };
+            context.UserRoles.AddAsync(addrole);
+            context.SaveChangesAsync();
+        }
         products = new List<Product>();
         products = _context.Products.OrderBy(x => Guid.NewGuid()).Take(12).ToList();
         return base.OnInitializedAsync();
