@@ -13,27 +13,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
                 <label asp-for="product.Name" class="control-label"></label>
-                <input asp-for="product.Name" class="form-control" />
+                <input asp-for="product.Name" class="form-control" aria-required="true"/>
                 <span asp-validation-for="product.Name" class="text-danger"></span>
             </div>
             <div class="form-floating">
                 <label asp-for="product.Price" class="control-label"></label>
-                <input type="number" min="0" asp-for="product.Price" class="form-control" />
+                <input type="number" min="0" asp-for="product.Price" class="form-control" aria-required="true" />
                 <span asp-validation-for="product.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="product.ProductCode" class="control-label"></label>
-                <input asp-for="product.ProductCode" class="form-control" />
+                <input asp-for="product.ProductCode" class="form-control" aria-required="true"/>
                 <span asp-validation-for="product.ProductCode" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="product.Description" class="control-label"></label>
-                <input asp-for="product.Description" class="form-control" />
+                <input asp-for="product.Description" class="form-control" aria-required="true"/>
                 <span asp-validation-for="product.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="product.Image" class="control-label"></label>
-                <input asp-for="product.Image" class="form-control" />
+                <input asp-for="product.Image" class="form-control" aria-required="true"/>
                 <span asp-validation-for="product.Image" class="text-danger"></span>
             </div>
             <div class="form-group">
