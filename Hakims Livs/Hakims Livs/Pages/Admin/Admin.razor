@@ -65,7 +65,7 @@
         categories = _context.Categories.AsNoTracking().OrderBy(x => x.Name).ToList();
         TotalProducts = _context.Products.Count();
     }
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         if (context.Customers.Where(cu => cu.Email == "admin1@example.com").Count() < 1)
         {
@@ -114,6 +114,13 @@
     }
     public async Task RemveCategory(Category category)
     {
+        foreach(var product in products)
+        {
+            if(product.CategoryName==category)
+            {
+                await _admin.DeleteProduct(product);
+            }
+        }
         await _admin.DeleteCategory(category);
         await OnParametersSetAsync();
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
