@@ -1,0 +1,47 @@
+﻿
+@page "/customers"
+@inject IJSRuntime IJS
+
+@inject IUser _user
+@inject ICart _cart
+<AuthorizeView Roles="Admin">
+    <Authorized>
+<h1 style=text-decoration:underline>Kunder</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"><h2>Email</h2></th>
+            <th scope="col"><h2>Namn</h2></th>
+            <th scope="col"><h2>Ålder</h2></th>
+            <th scope="col"><h2>Användare skapad</h2></th>
+
+        </tr>
+    </thead>
+    @foreach (var customer in CustomerList.OrderBy(c => c.Created))
+    {
+        <tbody>
+            <tr>
+                <th scope="row"></th>
+                <td>@customer.Email</td>
+                <td>@customer.FullName</td>
+                <td>@customer.Age</td>
+                <td>@customer.Created.ToString("yyyy-MM-dd")</td>
+            </tr>
+        </tbody>
+    }
+
+</table>
+        </Authorized>
+ </AuthorizeView>
+@code {
+    public List<Customer> CustomerList = new List<Customer>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        CustomerList = new List<Customer>();
+        CustomerList = context.Customers.ToList();
+    }
+
+}

@@ -3,17 +3,19 @@
 
 @inject IUser _user
 @inject ICart _cart
+<AuthorizeView Roles="Admin">
+    <Authorized>
+<h1 style=text-decoration:underline>Beställningar</h1>
 
 <table class="table">
     <thead>
         <tr>
-            <th scope="col"></th>
+            <th scope="col"><h2>Kund</h2></th>
+            <th scope="col"><h2>Produkter</h2></th>
 
-            <th scope="col">kund</th>
-            <th scope="col">produkter</th>
         </tr>
     </thead>
-    @foreach (var customer in CustomerList)
+    @foreach (var customer in CustomerList.OrderBy(c => c.FullName))
     {
         ProductList = new List<Product>();
 
@@ -26,15 +28,13 @@
         }
         <tbody>
             <tr>
-                <th scope="row"></th>
-                <td>@customer.FirstName @customer.LastName</td>
+                <td style ="font-weight:bold">@customer.FullName</td>
             </tr>
 
             @foreach (var item in ProductList)
             {
 
                 <tr>
-                    <td></td>
                     <td></td>
                     <td>@item.Name</td>
                 </tr>
@@ -55,6 +55,8 @@
     }
 
 </table>
+        </Authorized>
+ </AuthorizeView>
 @code {
 
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();

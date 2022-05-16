@@ -41,9 +41,9 @@
             <NavLink href="checkout" >
                     <button class="create navlink">Till Kassan: @if (@totalCart > 0)
                         {
-                            @totalCart
+                            @totalCart @kr
                         }
-                        </button>
+                    </button>
                 </NavLink>
         </form>
             <LoginDisplay /> 
@@ -59,6 +59,7 @@
     private List<Product>? products;
     public Product? SelectedProduct;
     public double totalCart;
+    string kr = " kr";
     protected async override void OnInitialized()
     {
         products = new List<Product>();
