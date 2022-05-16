@@ -4,7 +4,7 @@
 
 @page "/checkout"
 
-<h3>Kassan</h3>
+<h1>Kassan</h1>
 <AuthorizeView>
     <Authorized>
         <h5>Hej, @context.User.Identity?.Name</h5>
@@ -26,8 +26,8 @@
                         <th scope="row"></th>
                         <td>@product.Name</td>
                         <td>1</td>
-                        <td>@product.Price</td>
-                        <td>@product.Price</td>
+                        <td>@product.Price kr</td>
+                        <td>@product.Price kr</td>
                     </tr>
                 </tbody>
             } @*loopa genom shoppinglistorna och skapa flera rader beroende p åhur många prosukter som finns*@
@@ -37,7 +37,7 @@
                     <td></td>
                     <td></td>
                     <th>Summa att betala:</th>
-                    <td>@totalCart</td>
+                    <td>@totalCart kr</td>
                 </tr>
             </tfoot>
         </table>

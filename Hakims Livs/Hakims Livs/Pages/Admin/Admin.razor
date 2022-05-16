@@ -98,28 +98,35 @@
         }
 
     }
+    [Authorize(Roles = "Admin")]
     public async Task CreateProduct()
     {
         NavigationManager.NavigateTo("/createproduct", forceLoad: true);
     }
+    [Authorize(Roles = "Admin")]
     public async Task CreateCategory()
     {
         NavigationManager.NavigateTo("/createcategory", forceLoad: true);
     }
+    [Authorize(Roles = "Admin")]
     public async Task RemoveProduct(Product product)
     {
         await _admin.DeleteProduct(product);
         await OnParametersSetAsync();
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
     }
-    public async Task RemveCategory(Category category)
+    [Authorize(Roles = "Admin")]
+     public async Task RemveCategory(Category category)
     {
-        foreach(var product in products)
+        var categoryProducts = new List<Product>();
+
+        categoryProducts =_context.Products.AsNoTracking().Where(p=>p.CategoryName==category).ToList();
+
+        foreach(var product in categoryProducts)
         {
-            if(product.CategoryName==category)
-            {
+
                 await _admin.DeleteProduct(product);
-            }
+
         }
         await _admin.DeleteCategory(category);
         await OnParametersSetAsync();
