@@ -26,8 +26,8 @@
                                 <td>@currentCustomer.Address @currentCustomer.City @currentCustomer.PostalCode</td>
                             </tr>
                             <tr>
-                                <th scope="row">Betalaningsdatum:</th>
-                                <td> 30 dagar</td>
+                                <th scope="row">Förfallodatum:</th>
+                                <td> @DateTime.Today.AddDays(30).ToString("yyyy-MM-dd")</td>                              
                             </tr>
                         </tbody>
                     </table>

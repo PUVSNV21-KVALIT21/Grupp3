@@ -98,24 +98,20 @@
         }
 
     }
-    [Authorize(Roles = "Admin")]
     public async Task CreateProduct()
     {
         NavigationManager.NavigateTo("/createproduct", forceLoad: true);
     }
-    [Authorize(Roles = "Admin")]
     public async Task CreateCategory()
     {
         NavigationManager.NavigateTo("/createcategory", forceLoad: true);
     }
-    [Authorize(Roles = "Admin")]
     public async Task RemoveProduct(Product product)
     {
         await _admin.DeleteProduct(product);
         await OnParametersSetAsync();
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
     }
-    [Authorize(Roles = "Admin")]
      public async Task RemveCategory(Category category)
     {
         var categoryProducts = new List<Product>();

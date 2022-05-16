@@ -23,7 +23,7 @@ namespace Hakims_Livs.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("Hakimlivs@hotmail.com", "Hakims Livs"),
+                From = new EmailAddress("Hakimlivs@hotmail.com", "Hakim Livs"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

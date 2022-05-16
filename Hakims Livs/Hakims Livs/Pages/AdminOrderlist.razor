@@ -1,21 +1,17 @@
-﻿@page "/orders"
+﻿@page "/AdminOrderlist"
 @inject IJSRuntime IJS
-
+@layout BlankLayout
 @inject IUser _user
 @inject ICart _cart
-<AuthorizeView Roles="Admin">
-    <Authorized>
-        
 
-<h1 style=text-decoration:underline>Beställningar</h1> <button @onclick="PrintOrders">Skriv ut alla beställningar</button>
+<body onload="window.print()">
+<h1 style=text-decoration:underline>Beställningar</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th scope="col"><h2>Kund</h2></th>
             <th scope="col"><h2>Produkter</h2></th>
-            <th scope="col"><h2>Klar / Ej klar</h2></th>
-
         </tr>
     </thead>
     @foreach (var customer in CustomerList.OrderBy(c => c.FullName))
@@ -32,54 +28,28 @@
         <tbody>
             <tr>
                 <td style ="font-weight:bold">@customer.FullName</td>
-                <td></td>
-                <label> Klicka här när beställningen är färdigplockad
-                <td><input type="checkbox" class="larger" @onchange="()=>isChecked=!isChecked"></td>
-                <style>
-                    input.larger
-                    {
-                        width: 30px;
-                        height: 30px;
-                    }
-                </style>
-                </label>
             </tr>
 
             @foreach (var item in ProductList)
             {
+
                 <tr>
                     <td></td>
-                    <td>@item.Name</td>                 
+                    <td>@item.Name</td>
                 </tr>
             }
-            <tr>
-                <td></td>
-
-                <td>
-                    <NavLink href=@($"printorder/{customer.Id}")>
-                        <button>Se Detaljerad order</button>
-                    </NavLink>
-
-                </td>
-            </tr>
 
         </tbody>
     }
 
 </table>
-
-        </Authorized>
- </AuthorizeView>
+</body>
 @code {
-
-    bool isChecked = false;
 
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
 
     public List<Product> ProductList = new List<Product>();
     public List<Customer> CustomerList = new List<Customer>();
-
-   public async Task PrintOrders() => await IJS.InvokeAsync<object>("open", new object[] { "/AdminOrderlist" });
 
     protected override async Task OnParametersSetAsync()
     {
@@ -90,6 +60,11 @@
 
         ShoppingList = context.ShoppingCarts.OrderBy(s => s.User).ToList();
         CustomerList = context.Customers.ToList();
+        foreach (var productId in ShoppingList)
+            {
+                var thisProduct = context.Products.First(p => p.ID == productId.ProductId);
+                ProductList.Add(thisProduct);
+            }
 
     }
 

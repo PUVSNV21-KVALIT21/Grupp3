@@ -54,7 +54,7 @@
 
     protected override void OnParametersSet()
     {
-        options = new List<string>() { "Name", "Price", "Stock" };
+        options = new List<string>() { "Name", "Price"};
         SelectedString = "Name";
         var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking().OrderBy(x => x.Name);
 
@@ -78,11 +78,6 @@
         {
             query = query
             .OrderBy(x => x.Price);
-        }
-        //Finns ingen lagerstatus ännu
-        if (SelectedString == "Stock")
-        {
-            throw new NotImplementedException();
         }
         ProductList = new List<Product>();
         ProductList = await query.ToListAsync();
