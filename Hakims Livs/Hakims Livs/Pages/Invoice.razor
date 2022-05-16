@@ -25,8 +25,8 @@
                                 <td>@currentCustomer.Address @currentCustomer.City @currentCustomer.PostalCode</td>
                             </tr>
                             <tr>
-                                <th scope="row">Betalaningsdatum:</th>
-                                <td> 30 dagar</td>
+                                <th scope="row">Förfallodatum:</th>
+                                <td> @DateTime.Today.AddDays(30).ToString("yyyy-MM-dd")</td>
                             </tr>
                         </tbody>
                     </table>
@@ -91,7 +91,6 @@
 </body>
 
 @code {
-  
     //list with user id and product id
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
 
