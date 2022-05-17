@@ -3,6 +3,7 @@
 
 @inject IUser _user
 @inject ICart _cart
+@inject NavigationManager Navigation
 <AuthorizeView Roles="Admin">
     <Authorized>
         
@@ -34,7 +35,7 @@
                 <td style ="font-weight:bold">@customer.FullName</td>
                 <td></td>
                 <label> Klicka här när beställningen är färdigplockad
-                <td><input type="checkbox" class="larger" @onchange="()=>isChecked=!isChecked"></td>
+                <td><input type="checkbox" class="larger" @onclick="() => ClearCart(customer)"></td>
                 <style>
                     input.larger
                     {
@@ -79,7 +80,7 @@
     public List<Product> ProductList = new List<Product>();
     public List<Customer> CustomerList = new List<Customer>();
 
-   public async Task PrintOrders() => await IJS.InvokeAsync<object>("open", new object[] { "/AdminOrderlist" });
+    public async Task PrintOrders() => await IJS.InvokeAsync<object>("open", new object[] { "/AdminOrderlist" });
 
     protected override async Task OnParametersSetAsync()
     {
@@ -89,12 +90,20 @@
         ProductList = new List<Product>();
 
         ShoppingList = context.ShoppingCarts.OrderBy(s => s.User).ToList();
-        CustomerList = context.Customers.ToList();
+        CustomerList = context.ShoppingCarts.Select(x => x.User).ToList();
 
     }
 
+    public async Task ClearCart(Customer customer)
+    {
+        ShoppingList = new List<ShoppingCart>();
+        ShoppingList = context.ShoppingCarts.Where(x => x.UserId == customer.Id).ToList();
+        foreach (var product in ShoppingList)
+        {
+            context.ShoppingCarts.Remove(product);
+        }
+        await context.SaveChangesAsync();
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
 
-
-
-
+    }
