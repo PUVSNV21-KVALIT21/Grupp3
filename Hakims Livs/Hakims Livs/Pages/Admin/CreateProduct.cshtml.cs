@@ -39,16 +39,7 @@ namespace Hakims_Livs.Pages.Admin
         }
         [BindProperty]
         public Product product { get; set; }
-        //public class Product
-        //{
-        //    public int ID { get; set; }
-        //    public string Name { get; set; }
-        //    public Category CategoryName { get; set; }
-        //    public string ProductCode { get; set; }
-        //    public string Description { get; set; }
-        //    public string Image { get; set; }
-        //    public double Price { get; set; }
-        //}
+ 
         public async Task<IActionResult> OnPostAsync(Product product, Category category)
         {
             var selectedCategory = await _context.Categories.FindAsync(category.ID);
@@ -63,13 +54,17 @@ namespace Hakims_Livs.Pages.Admin
             };
             try
             {
+                if (product1.Price != 0)
+                {
                 await _admin.CreateProduct(product1);
                 await OnGetAsync();
                 return Page();
+                }         
+                await OnGetAsync();
+                return Page();             
             }
             catch (Exception)
             {
-
                 await OnGetAsync();
                 return Page();
             }
