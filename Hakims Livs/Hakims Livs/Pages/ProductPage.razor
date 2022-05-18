@@ -12,6 +12,7 @@
 @inject NavigationManager Navigation
 @using Hakims_Livs.Models
 @using Hakims_Livs.Pages
+@using System.Globalization
 @inject IShowModal _showModal
 @inject IUser _user
 @inject ICart _cart
@@ -56,6 +57,7 @@
     {
         options = new List<string>() { "Name", "Price"};
         SelectedString = "Name";
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("se");
         var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking().OrderBy(x => x.Name);
         ProductList = new List<Product>();
         ProductList = query.ToList();
