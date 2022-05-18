@@ -247,6 +247,11 @@ form {
 .right {
     max-width: 275px;
 }
+
+.footer {
+    overflow: hidden !important;
+}
+
 @media screen and (max-width: 1200px) {
     .navlink {
         display: none;
