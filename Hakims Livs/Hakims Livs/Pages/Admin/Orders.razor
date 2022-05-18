@@ -88,10 +88,8 @@
         ShoppingList = new List<ShoppingCart>();
         CustomerList = new List<Customer>();
         ProductList = new List<Product>();
-
         ShoppingList = context.ShoppingCarts.OrderBy(s => s.User).ToList();
         CustomerList = context.ShoppingCarts.Select(x => x.User).Distinct().ToList();
-
     }
 
     public async Task ClearCart(Customer customer)
