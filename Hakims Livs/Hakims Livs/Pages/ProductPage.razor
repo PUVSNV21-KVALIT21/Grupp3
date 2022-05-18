@@ -56,8 +56,12 @@
     {
         options = new List<string>() { "Name", "Price"};
         SelectedString = "Name";
-        var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking().OrderBy(x => x.Name);
-
+        var query = context.Products.Where(x => x.CategoryName.ID == id).AsNoTracking();
+        foreach (var product in query)
+        {
+            product.Name.Replace("å", "zzz1").Replace("ä", "zzz2").Replace("ö", "zzz3").Replace("Å", "Zzz1").Replace("Ä", "Zzz2").Replace("Ö", "Zzz3");
+        }
+        query = query.OrderBy(x => x.Name);
         ProductList = new List<Product>();
         ProductList = query.ToList();
     }
