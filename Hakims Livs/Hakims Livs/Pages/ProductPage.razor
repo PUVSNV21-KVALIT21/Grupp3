@@ -37,7 +37,7 @@
                     <div class ="productdescription">@product.Description</div>
                     <div class ="productprice">@product.Price kr</div>
                     </div>
-                    <button @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
+                    <button disabled=@IsTaskRunning @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
                 </div>
             }
         </div>
@@ -51,6 +51,7 @@
     private string username;
     public string SelectedString { get; set; }
     private Customer currentCustomer { get; set; }
+    bool IsTaskRunning = false;
 
     protected override void OnParametersSet()
     {
@@ -83,11 +84,16 @@
         ProductList = await query.ToListAsync();
     }
 
+      Task DisableButtonOnClick()
+    {       
+        return Task.Delay(100);
+    }
 
     public async Task AddProductToShoppingCart(Product product)
     {
         currentCustomer = await _user.GetCurrentUserAsync();
-
+        IsTaskRunning = true;
+        await DisableButtonOnClick();
         if (currentCustomer != null)
         {
             await _cart.AddProductToShoppingCart(product);

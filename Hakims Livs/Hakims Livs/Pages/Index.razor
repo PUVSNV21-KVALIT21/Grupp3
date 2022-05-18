@@ -29,7 +29,7 @@
                     <div class ="productdescription">@product.Description</div>
                     <div class ="productprice">@product.Price kr</div>
                     </div>
-                    <button @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
+                    <button disabled=@IsTaskRunning @onclick="() => AddProductToShoppingCart(product)" class="cartbutton">Lägg till i varukorg</button>
                 </div>
             }
         </div>
@@ -39,11 +39,12 @@
     public Category category { get; set; }
     public List<Product> products { get; set; }
     public Customer currentCustomer { get; set; }
+    bool IsTaskRunning = false;
 
     protected override Task OnInitializedAsync()
     {
         LoadCsvFile(context);
-                if (context.Customers.Where(cu => cu.Email == "admin1@example.com").Count() < 1)
+        if (context.Customers.Where(cu => cu.Email == "admin1@example.com").Count() < 1)
         {
             var adminRole = new Microsoft.AspNetCore.Identity.IdentityRole("Admin");
             context.Roles.AddAsync(adminRole);
@@ -84,6 +85,8 @@
     {
         currentCustomer = await _user.GetCurrentUserAsync();
 
+        IsTaskRunning = true;
+        await DisableButtonOnClick();
         if (currentCustomer != null)
         {
             await _cart.AddProductToShoppingCart(product);
@@ -95,6 +98,10 @@
         }
     }
 
+    Task DisableButtonOnClick()
+    {
+        return Task.Delay(100);
+    }
     public static async Task LoadCsvFile(ApplicationDbContext context)
     {
         if (!context.Products.Any())

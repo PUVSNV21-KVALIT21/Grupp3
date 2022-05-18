@@ -125,8 +125,12 @@ a, .btn-link {
     bottom: 8px;
     right: 1%;
     left: 1%;
-
 }
+
+.cartbutton:disabled {
+ opacity: 0.3;
+}
+
 .cartbutton:hover {
     color: #fff;
     background-color: #0069d9;

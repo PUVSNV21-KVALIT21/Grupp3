@@ -30,7 +30,7 @@
                     <div class ="productdescription">@product.Description</div>
                     <div class ="productprice">@product.Price kr</div>
                     </div>
-                    <button @onclick="() => RemoveProduct(product)" class="cartbutton">Ta Bort</button>
+                    <button disabled=@IsTaskRunning @onclick="() => RemoveProduct(product)" class="cartbutton">Ta Bort</button>
                 </div>
             }
     </div>
@@ -40,7 +40,7 @@
         {
             <div class="productdiv">
                 <div>@category.Name</div>
-                <button @onclick="() => RemveCategory(category)" class="cartbutton">Ta Bort</button>
+                <button disabled=@IsTaskRunning @onclick="() => RemoveCategory(category)" class="cartbutton">Ta Bort</button>
             </div>
         }
     </div>
@@ -56,6 +56,7 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     string AdminRole = "Admin";
     System.Security.Claims.ClaimsPrincipal CurrentUser;
+    bool IsTaskRunning = false;
 
     protected override void OnParametersSet()
     {
@@ -108,12 +109,15 @@
     }
     public async Task RemoveProduct(Product product)
     {
+        IsTaskRunning = true;
+        await DisableButtonOnClick();
         await _admin.DeleteProduct(product);
         await OnParametersSetAsync();
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
     }
-     public async Task RemveCategory(Category category)
+    public async Task RemoveCategory(Category category)
     {
+        IsTaskRunning = true;
         var categoryProducts = new List<Product>();
 
         categoryProducts =_context.Products.AsNoTracking().Where(p=>p.CategoryName==category).ToList();
@@ -121,11 +125,17 @@
         foreach(var product in categoryProducts)
         {
 
-                await _admin.DeleteProduct(product);
+            await _admin.DeleteProduct(product);
 
         }
+        await DisableButtonOnClick();
         await _admin.DeleteCategory(category);
         await OnParametersSetAsync();
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+
+    Task DisableButtonOnClick()
+    {       
+        return Task.Delay(100);
     }
 }
