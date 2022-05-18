@@ -25,7 +25,7 @@
                     <div class ="productdescription">@product.Description</div>
                     <div class ="productprice">@product.Price kr</div>
                     </div>
-                    <button @onclick="() => RemoveProduct(product)" class="cartbutton">Ta bort</button>
+                    <button disabled=@IsTaskRunning @onclick="() => RemoveProduct(product)" class="cartbutton">Ta bort</button>
                 </div>
             }
         </div>
@@ -43,6 +43,12 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     private System.Security.Claims.ClaimsPrincipal user { get; set; }
     private Customer currentCustomer { get; set; }
+    bool IsTaskRunning = false;
+
+      Task DisableButtonOnClick()
+    {       
+        return Task.Delay(100);
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -66,6 +72,8 @@
 
     public async Task RemoveProduct(Product product)
     {
+        IsTaskRunning = true;
+        await DisableButtonOnClick();
         await _cart.RemoveProduct(product);
         await OnParametersSetAsync();
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
