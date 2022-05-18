@@ -59,7 +59,7 @@
         ProductList = new List<Product>();
 
         ShoppingList = context.ShoppingCarts.OrderBy(s => s.User).ToList();
-        CustomerList = context.Customers.ToList();
+        CustomerList = context.ShoppingCarts.Select(x => x.User).Distinct().ToList();
         foreach (var productId in ShoppingList)
             {
                 var thisProduct = context.Products.First(p => p.ID == productId.ProductId);
