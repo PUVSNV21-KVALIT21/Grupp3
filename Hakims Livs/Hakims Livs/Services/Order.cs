@@ -9,6 +9,7 @@ namespace Hakims_Livs.Services
     public interface IOrder
     {
         public Task CreateOrder();
+        public Task UpdateOrder(int id);
     }
     public class OrderService : IOrder
     {
@@ -45,6 +46,14 @@ namespace Hakims_Livs.Services
 
                 await _cart.ClearCart();
             }
+        }
+        public async Task UpdateOrder(int id)
+        {
+            var order = _context.Orders.Where(x => x.Id == id).FirstOrDefault();
+            order.IsDone = true;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+            
         }
     }
 }

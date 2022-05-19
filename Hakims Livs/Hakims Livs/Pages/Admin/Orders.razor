@@ -30,7 +30,7 @@
                 <td style ="font-weight:bold">@item.User.FullName</td>
                 <td></td>
                 <label> Klicka här när beställningen är färdigplockad
-                <td><input type="checkbox" class="larger" @onclick="() => ClearCart(item.User)"></td>
+                <td><input type="checkbox" class="larger" @onclick="() => SetToDone(item.Id)"></td>
                 <style>
                     input.larger
                     {
@@ -83,19 +83,14 @@
         CustomerList = new List<Customer>();
         ProductList = new List<Product>();
         OrderList = new List<Order>();
-        OrderList = context.Orders.Include(p => p.Products).OrderBy(x => x.User).ToList();
+        OrderList = context.Orders.Include(p => p.Products).OrderBy(x => x.User).Where(x => x.IsDone == false).ToList();
         CustomerList = context.Orders.Select(x => x.User).ToList();
     }
 
-    public async Task ClearCart(Customer customer)
+    public async Task SetToDone(int id)
     {
-        ShoppingList = new List<ShoppingCart>();
-        ShoppingList = context.ShoppingCarts.Where(x => x.UserId == customer.Id).ToList();
-        foreach (var product in ShoppingList)
-        {
-            context.ShoppingCarts.Remove(product);
-        }
-        await context.SaveChangesAsync();
+
+        await _order.UpdateOrder(id);
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
 
