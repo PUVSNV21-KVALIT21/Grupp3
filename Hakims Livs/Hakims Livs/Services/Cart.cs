@@ -40,9 +40,11 @@ namespace Hakims_Livs.Services
         {
             //find the shoppinglist with the chosen product
             var shoppinglistToRemove = _context.ShoppingCarts.FirstOrDefault(s => s.Product == product);
-
-            _context.ShoppingCarts.Remove(shoppinglistToRemove);
-            await _context.SaveChangesAsync();
+            if (shoppinglistToRemove != null)
+            {
+                _context.ShoppingCarts.Remove(shoppinglistToRemove);
+                await _context.SaveChangesAsync();
+            }
         }
         public async Task<double> UpdateCartPrice()
         {

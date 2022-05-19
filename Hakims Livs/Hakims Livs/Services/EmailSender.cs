@@ -25,7 +25,7 @@ namespace Hakims_Livs.Services
             {
                 From = new EmailAddress("Hakimlivs@hotmail.com", "Hakim Livs"),
                 Subject = subject,
-                PlainTextContent = message,
+                PlainTextContent = "Välkommen till Hakim",
                 HtmlContent = message
             };
             msg.AddTo(new EmailAddress(email));

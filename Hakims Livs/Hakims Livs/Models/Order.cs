@@ -7,5 +7,6 @@
         public Customer User { get; set; }
         public List<Product> Products { get; set; }
         public bool IsDone { get; set; }
+        public DateTime TimePlaced { get; set; }
     }
 }

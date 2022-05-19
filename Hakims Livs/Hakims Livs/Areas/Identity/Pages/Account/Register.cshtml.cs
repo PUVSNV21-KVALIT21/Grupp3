@@ -112,10 +112,10 @@ namespace Hakims_Livs.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                user = new Customer { 
-                    UserName = Input.Email, 
-                    Email = Input.Email, 
-                    FirstName = Input.FistName, 
+                user = new Customer {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FirstName = Input.FistName,
                     LastName = Input.LastName,
                     Created = DateTime.Now,
                     Age = Input.Age,

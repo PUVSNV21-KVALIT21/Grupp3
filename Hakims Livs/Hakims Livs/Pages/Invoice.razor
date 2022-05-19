@@ -25,6 +25,10 @@
                                 <td>@currentCustomer.Address @currentCustomer.City @currentCustomer.PostalCode</td>
                             </tr>
                             <tr>
+                                <th scope="row">Beställningsdatum:</th>
+                                <td> @order.TimePlaced.ToString("yyyy-MM-dd")</td>
+                            </tr>
+                            <tr>
                                 <th scope="row">Förfallodatum:</th>
                                 <td> @DateTime.Today.AddDays(30).ToString("yyyy-MM-dd")</td>
                             </tr>
@@ -65,15 +69,15 @@
                 <th scope="col">Totalt</th>
             </tr>
         </thead>
-        @foreach (var product in ProductList)
+        @foreach (var product in order.Products)
         {
             <tbody>
                 <tr>
                     <th scope="row"></th>
                     <td>@product.Name</td>
                     <td>1</td>
-                    <td>@product.Price</td>
-                    <td>@product.Price</td>
+                    <td>@product.Price kr</td>
+                    <td>@product.Price kr</td>
                 </tr>
             </tbody>
         }
@@ -95,7 +99,8 @@
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
 
     public List<Product> ProductList = new List<Product>();
-
+    public List<Order> OrderList = new List<Order>();
+    public Order order { get; set; }
     private Customer currentCustomer { get; set; }
     public double totalCart;
 
@@ -103,20 +108,16 @@
     protected override async Task OnParametersSetAsync()
     {
         currentCustomer = await _user.GetCurrentUserAsync();
-        totalCart = await _cart.UpdateCartPrice();
 
-        ShoppingList = new List<ShoppingCart>();
+        totalCart = 0;
 
         if (currentCustomer != null)
         {
-            //create a list with all shoppinglists where the user id match the loged in user
-            ShoppingList = context.ShoppingCarts.Where(s => s.UserId == currentCustomer.Id).ToList();
+            order = context.Orders.Include(x => x.Products).Where(x => x.UserId == currentCustomer.Id).OrderByDescending(x => x.TimePlaced).First();
 
-            ProductList = new List<Product>();
-            foreach (var productId in ShoppingList)
+            foreach (var product in order.Products)
             {
-                var thisProduct = context.Products.First(p => p.ID == productId.ProductId);
-                ProductList.Add(thisProduct);
+                totalCart += product.Price;
             }
         }
     }

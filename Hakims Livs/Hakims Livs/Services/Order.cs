@@ -41,6 +41,7 @@ namespace Hakims_Livs.Services
                 order.User = currentCustomer;
                 order.IsDone = false;
                 order.Products = products;
+                order.TimePlaced = DateTime.Now;
                 await _context.Orders.AddAsync(order);
                 await _context.SaveChangesAsync();
 

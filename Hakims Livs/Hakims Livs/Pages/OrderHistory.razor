@@ -1,11 +1,11 @@
-﻿@page "/AdminOrderlist"
+﻿@page "/orderhistory"
 @inject IJSRuntime IJS
 @layout BlankLayout
 @inject IUser _user
 @inject ICart _cart
 
 <body onload="window.print()">
-<h1 style=text-decoration:underline>Pågående Beställningar</h1>
+<h1 style=text-decoration:underline>Färdiga Beställningar</h1>
 
 <table class="table">
     <thead>
@@ -48,7 +48,7 @@
     {
         ProductList = new List<Product>();
         OrderList = new List<Order>();
-        OrderList = context.Orders.Include(p => p.Products).Include(x => x.User).OrderBy(x => x.User).Where(x => x.IsDone == false).ToList();
+        OrderList = context.Orders.Include(p => p.Products).Include(x => x.User).OrderBy(x => x.User).Where(x => x.IsDone == true).ToList();
 
     }
 
