@@ -18,11 +18,11 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Kund:</th>
-                                <td>@currentCustomer.FirstName @currentCustomer.LastName</td>
+                                <td>@order.User.FirstName @order.User.LastName</td>
                             </tr>
                             <tr>
                                 <th scope="row">Adress:</th>
-                                <td>@currentCustomer.Address @currentCustomer.City @currentCustomer.PostalCode</td>
+                                <td>@order.User.Address @order.User.City @order.User.PostalCode</td>
                             </tr>
                             <tr>
                                 <th scope="row">Beställningsdatum:</th>
@@ -50,7 +50,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">OCR-nummer:</th>
-                                <td>@currentCustomer.Email</td>
+                                <td>@order.User.Email</td>
                             </tr>
                         </tbody>
                     </table>
