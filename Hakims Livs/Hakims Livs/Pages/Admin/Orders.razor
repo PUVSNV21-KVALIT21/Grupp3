@@ -20,7 +20,6 @@
 
         </tr>
     </thead>
-@*    @foreach (var customer in CustomerList.OrderBy(c => c.FullName))*@
         @foreach (var item in OrderList)
     {
         ProductList = new List<Product>();
@@ -80,18 +79,15 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        CustomerList = new List<Customer>();
         ProductList = new List<Product>();
         OrderList = new List<Order>();
         OrderList = context.Orders.Include(p => p.Products).OrderBy(x => x.User).Where(x => x.IsDone == false).ToList();
-        CustomerList = context.Orders.Select(x => x.User).ToList();
     }
 
     public async Task SetToDone(int id)
     {
-
         await _order.UpdateOrder(id);
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
 
-    }
+}

@@ -17,7 +17,7 @@
 
 <h1 style="text-align:center">Välkommen till Hakim Livs</h1>
 
-<h2 style="text-align:center">Dagens Produkter</h2>
+<h2 style="text-align:center">Populära Produkter</h2>
 
     <div class="productcontainer">
         @foreach (var product in products)
@@ -74,7 +74,7 @@
             context.SaveChangesAsync();
         }
         products = new List<Product>();
-        products = _context.Products.OrderBy(x => Guid.NewGuid()).Take(12).ToList();
+        products = _context.Products.Include(x => x.Orders).OrderByDescending(x => x.Orders.Count()).Take(12).ToList();
         return base.OnInitializedAsync();
     }
     void ShowProduct (int productId)
