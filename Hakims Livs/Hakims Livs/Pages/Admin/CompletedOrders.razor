@@ -1,4 +1,4 @@
-﻿@page "/orders"
+﻿@page "/completedorders"
 @inject IJSRuntime IJS
 
 @inject IUser _user
@@ -9,17 +9,14 @@
     <Authorized>
         
 
-<h1 style=text-decoration:underline>Pågående Beställningar</h1> <button @onclick="PrintOrders">Skriv ut pågående beställningar</button>
-<button @onclick="CompletedOrders">Visa färdiga beställningar</button>
+<h1 style=text-decoration:underline>Färdiga Beställningar</h1> <button @onclick="PrintOrders">Skriv ut färdiga beställningar</button>
+<button @onclick="Navigate">Visa pågående beställningar</button>
 
 <table class="table">
     <thead>
         <tr>
             <th scope="col"><h2>Kund</h2></th>
             <th scope="col"><h2>Produkter</h2></th>
-            <th scope="col"><h2>Beställningsdatum</h2></th>
-            <th scope="col"><h2>Klar / Ej klar</h2></th>
-
         </tr>
     </thead>
         @foreach (var item in OrderList)
@@ -30,17 +27,6 @@
             <tr>
                 <td style ="font-weight:bold">@item.User.FullName</td>
                 <td></td>
-                <td>@item.TimePlaced</td>
-                <label> Klicka här när beställningen är färdigplockad
-                <td><input type="checkbox" class="larger" @onclick="() => SetToDone(item.Id)"></td>
-                <style>
-                    input.larger
-                    {
-                        width: 30px;
-                        height: 30px;
-                    }
-                </style>
-                </label>
             </tr>
 
             @foreach (var product1 in ProductList)
@@ -52,14 +38,13 @@
             }
             <tr>
                 <td></td>
+
                 <td>
                     <NavLink href=@($"printorder/{item.User}")>
                         <button>Se Detaljerad order</button>
                     </NavLink>
 
                 </td>
-                <td></td>
-                <td></td>
             </tr>
 
         </tbody>
@@ -79,13 +64,13 @@
     public List<Product> ProductList = new List<Product>();
     public List<Customer> CustomerList = new List<Customer>();
 
-    public async Task PrintOrders() => await IJS.InvokeAsync<object>("open", new object[] { "/AdminOrderlist" });
+    public async Task PrintOrders() => await IJS.InvokeAsync<object>("open", new object[] { "/orderhistory" });
 
     protected override async Task OnParametersSetAsync()
     {
         ProductList = new List<Product>();
         OrderList = new List<Order>();
-        OrderList = context.Orders.Include(p => p.Products).Include(x => x.User).OrderBy(x => x.TimePlaced).Where(x => x.IsDone == false).ToList();
+        OrderList = context.Orders.Include(p => p.Products).Include(x => x.User).OrderBy(x => x.User).Where(x => x.IsDone == true).ToList();
     }
 
     public async Task SetToDone(int id)
@@ -93,8 +78,8 @@
         await _order.UpdateOrder(id);
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
-    public async Task CompletedOrders()
+    public async Task Navigate()
     {
-        Navigation.NavigateTo("completedorders", forceLoad: true);
+        Navigation.NavigateTo("orders", forceLoad: true);
     }
 }

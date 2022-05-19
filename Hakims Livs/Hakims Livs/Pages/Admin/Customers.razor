@@ -41,7 +41,7 @@
     protected override async Task OnParametersSetAsync()
     {
         CustomerList = new List<Customer>();
-        CustomerList = context.Customers.ToList();
+        CustomerList = context.Customers.Where(x => x.EmailConfirmed == true).ToList();
     }
 
 }
