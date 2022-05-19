@@ -3,6 +3,7 @@
 
 @inject IUser _user
 @inject ICart _cart
+@inject IOrder _order
 @inject NavigationManager Navigation
 <AuthorizeView Roles="Admin">
     <Authorized>
@@ -19,23 +20,17 @@
 
         </tr>
     </thead>
-    @foreach (var customer in CustomerList.OrderBy(c => c.FullName))
+@*    @foreach (var customer in CustomerList.OrderBy(c => c.FullName))*@
+        @foreach (var item in OrderList)
     {
         ProductList = new List<Product>();
-
-        @foreach (var product in ShoppingList)
-        {
-            if (product.User == customer)
-            {
-                ProductList.Add(product.Product);
-            }
-        }
+        ProductList = item.Products;
         <tbody>
             <tr>
-                <td style ="font-weight:bold">@customer.FullName</td>
+                <td style ="font-weight:bold">@item.User.FullName</td>
                 <td></td>
                 <label> Klicka här när beställningen är färdigplockad
-                <td><input type="checkbox" class="larger" @onclick="() => ClearCart(customer)"></td>
+                <td><input type="checkbox" class="larger" @onclick="() => ClearCart(item.User)"></td>
                 <style>
                     input.larger
                     {
@@ -46,18 +41,18 @@
                 </label>
             </tr>
 
-            @foreach (var item in ProductList)
+            @foreach (var product1 in ProductList)
             {
                 <tr>
                     <td></td>
-                    <td>@item.Name</td>                 
+                    <td>@product1.Name</td>                 
                 </tr>
             }
             <tr>
                 <td></td>
 
                 <td>
-                    <NavLink href=@($"printorder/{customer.Id}")>
+                    <NavLink href=@($"printorder/{item.User}")>
                         <button>Se Detaljerad order</button>
                     </NavLink>
 
@@ -76,6 +71,7 @@
     bool isChecked = false;
 
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
+    public List<Order> OrderList = new List<Order>();
 
     public List<Product> ProductList = new List<Product>();
     public List<Customer> CustomerList = new List<Customer>();
@@ -84,12 +80,11 @@
 
     protected override async Task OnParametersSetAsync()
     {
-
-        ShoppingList = new List<ShoppingCart>();
         CustomerList = new List<Customer>();
         ProductList = new List<Product>();
-        ShoppingList = context.ShoppingCarts.OrderBy(s => s.User).ToList();
-        CustomerList = context.ShoppingCarts.Select(x => x.User).Distinct().ToList();
+        OrderList = new List<Order>();
+        OrderList = context.Orders.Include(p => p.Products).OrderBy(x => x.User).ToList();
+        CustomerList = context.Orders.Select(x => x.User).ToList();
     }
 
     public async Task ClearCart(Customer customer)

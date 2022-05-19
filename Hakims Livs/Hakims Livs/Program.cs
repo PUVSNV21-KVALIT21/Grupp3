@@ -29,6 +29,7 @@ builder.Services.AddTransient<IShowModal, ShowModal>();
 builder.Services.AddTransient<ICart, Cart>();
 builder.Services.AddTransient<IUser, User>();
 builder.Services.AddTransient<IAdmin, Admin>();
+builder.Services.AddTransient<IOrder, OrderService>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 var app = builder.Build();

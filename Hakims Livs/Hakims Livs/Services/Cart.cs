@@ -12,6 +12,7 @@ namespace Hakims_Livs.Services
         public Task RemoveProduct (Product product);
         public Task<double> UpdateCartPrice();
         event Action<double> OnMessage;
+        public Task ClearCart();
     }
     public class Cart : ICart
     {
@@ -56,6 +57,19 @@ namespace Hakims_Livs.Services
                 }
             }
             return totalCost;
+        }
+        public async Task ClearCart()
+        {
+            currentCustomer = await _user.GetCurrentUserAsync();
+            if (currentCustomer != null)
+            {
+                var shoppingList = _context.ShoppingCarts.Where(x => x.UserId == currentCustomer.Id).ToList();
+                foreach (var item in shoppingList)
+                {
+                    _context.ShoppingCarts.Remove(item);
+                }
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

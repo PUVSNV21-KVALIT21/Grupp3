@@ -1,6 +1,7 @@
 ﻿@inject IJSRuntime IJS
 @inject IUser _user
 @inject ICart _cart
+@inject IOrder _order
 
 @page "/checkout"
 
@@ -43,7 +44,7 @@
         </table>
         <p></p>
         <p style="font-weight:bold">Fakturan skickas med i ordern</p>
-        <button @onclick="PrintDocument">Betala och se din faktura</button>
+        <button @onclick="CheckOut">Betala och se din faktura</button>
     </Authorized>
 </AuthorizeView>
 
@@ -78,6 +79,11 @@
                 ProductList.Add(thisProduct);
             }
         }
+    }
+    public async Task CheckOut()
+    {
+        await _order.CreateOrder();
+        await PrintDocument();
     }
     public async Task PrintDocument() => await IJS.InvokeAsync<object>("open", new object[] { "/invoice" });
 
