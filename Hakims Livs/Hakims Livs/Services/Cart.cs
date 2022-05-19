@@ -58,7 +58,7 @@ namespace Hakims_Livs.Services
                     totalCost += item;
                 }
             }
-            return totalCost;
+            return Math.Round(totalCost, 1);
         }
         public async Task ClearCart()
         {
