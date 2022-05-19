@@ -42,8 +42,16 @@
             </tfoot>
         </table>
         <p></p>
-        <p style="font-weight:bold">Fakturan skickas med i ordern</p>
-        <button @onclick="PrintDocument">Betala och se din faktura</button>
+
+        @if(totalCart>0)
+        {
+            <p style="font-weight:bold">Fakturan skickas med i ordern</p>
+            <button @onclick="PrintDocument">Betala och se din faktura</button>
+        }
+        else
+        {
+            <p style="font-weight:bold">Du har ingenting i kassan att betala</p>
+        }
     </Authorized>
 </AuthorizeView>
 
