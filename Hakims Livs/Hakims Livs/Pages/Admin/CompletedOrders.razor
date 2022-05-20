@@ -31,16 +31,20 @@
 
             @foreach (var product1 in ProductList)
             {
+                for (var i = 0; i < product1.Quantity.Amount; i++)
+                {
                 <tr>
                     <td></td>
                     <td>@product1.Name</td>                 
-                </tr>
+                </tr>   
+                }
+
             }
             <tr>
                 <td></td>
 
                 <td>
-                    <NavLink href=@($"printorder/{item.User}")>
+                    <NavLink href=@($"printorder/{item.Id}")>
                         <button>Se Detaljerad order</button>
                     </NavLink>
 
@@ -70,7 +74,7 @@
     {
         ProductList = new List<Product>();
         OrderList = new List<Order>();
-        OrderList = context.Orders.Include(p => p.Products).Include(x => x.User).OrderBy(x => x.User).Where(x => x.IsDone == true).ToList();
+        OrderList = context.Orders.Include(p => p.Products).ThenInclude(x => x.Quantity).Include(x => x.User).OrderBy(x => x.User).Where(x => x.IsDone == true).ToList();
     }
 
     public async Task SetToDone(int id)

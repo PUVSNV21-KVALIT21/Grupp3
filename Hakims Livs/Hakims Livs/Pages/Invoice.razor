@@ -75,9 +75,9 @@
                 <tr>
                     <th scope="row"></th>
                     <td>@product.Name</td>
-                    <td>1</td>
+                    <td>@product.Quantity.Amount</td>
                     <td>@product.Price kr</td>
-                    <td>@product.Price kr</td>
+                    <td>@(@product.Price * @product.Quantity.Amount) kr</td>
                 </tr>
             </tbody>
         }
@@ -103,6 +103,7 @@
     public Order order { get; set; }
     private Customer currentCustomer { get; set; }
     public double totalCart;
+    public List<int> productQuantity;
 
 
     protected override async Task OnParametersSetAsync()
@@ -113,11 +114,14 @@
 
         if (currentCustomer != null)
         {
-            order = context.Orders.Include(x => x.Products).Where(x => x.UserId == currentCustomer.Id).OrderByDescending(x => x.TimePlaced).First();
+            order = context.Orders.Include(x => x.Products).ThenInclude(x => x.Quantity).Where(x => x.UserId == currentCustomer.Id).OrderByDescending(x => x.TimePlaced).First();
 
             foreach (var product in order.Products)
             {
-                totalCart += product.Price;
+                for (int i = 0; i < product.Quantity.Amount; i++)
+                {
+                    totalCart += product.Price;
+                }
             }
         }
     }

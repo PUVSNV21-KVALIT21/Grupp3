@@ -10,6 +10,7 @@
         public string Image { get; set; }
         public double Price { get; set; }
         public List<Order> Orders { get; set; }
+        public Quantity Quantity { get; set; }
     }
 
     public class Category

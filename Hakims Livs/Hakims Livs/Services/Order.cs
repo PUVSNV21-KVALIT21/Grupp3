@@ -29,12 +29,25 @@ namespace Hakims_Livs.Services
         {
             products = new List<Product>();
             currentCustomer = await _user.GetCurrentUserAsync();
+            List<Quantity> quantity = new List<Quantity>();
             if (currentCustomer != null)
             {
                 var shoppingList = _context.ShoppingCarts.Where(x => x.UserId == currentCustomer.Id).Select(x => x.Product).ToList();
                 foreach (var product in shoppingList)
                 {
-                    products.Add(product);
+                    if (!products.Contains(product))
+                    {
+                        Quantity quantity1 = new Quantity();
+                        products.Add(product);
+                        quantity1.Product = product;
+                        quantity1.Amount = 1;
+                        product.Quantity = quantity1;
+                        quantity.Add(quantity1);
+                    }
+                    else
+                    {
+                        product.Quantity.Amount++;
+                    }
                 }
                 Order order = new Order();
                 order.UserId = currentCustomer.Id;
@@ -42,10 +55,17 @@ namespace Hakims_Livs.Services
                 order.IsDone = false;
                 order.Products = products;
                 order.TimePlaced = DateTime.Now;
+                order.Quantity = quantity;
                 await _context.Orders.AddAsync(order);
                 await _context.SaveChangesAsync();
-
                 await _cart.ClearCart();
+
+                Quantity quantity2 = new Quantity();
+                foreach (var quantity1 in quantity)
+                {
+                    quantity2.Order = order;  
+                }
+                _context.Quantity.Add(quantity2);
             }
         }
         public async Task UpdateOrder(int id)

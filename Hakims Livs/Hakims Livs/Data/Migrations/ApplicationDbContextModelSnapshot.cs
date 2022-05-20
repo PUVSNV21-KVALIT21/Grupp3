@@ -181,6 +181,33 @@ namespace Hakims_Livs.Data.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Hakims_Livs.Models.Quantity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
+                    b.ToTable("Quantity");
+                });
+
             modelBuilder.Entity("Hakims_Livs.Models.ShoppingCart", b =>
                 {
                     b.Property<int>("ID")
@@ -374,6 +401,25 @@ namespace Hakims_Livs.Data.Migrations
                     b.Navigation("CategoryName");
                 });
 
+            modelBuilder.Entity("Hakims_Livs.Models.Quantity", b =>
+                {
+                    b.HasOne("Hakims_Livs.Models.Order", "Order")
+                        .WithMany("Quantity")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hakims_Livs.Models.Product", "Product")
+                        .WithOne("Quantity")
+                        .HasForeignKey("Hakims_Livs.Models.Quantity", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Hakims_Livs.Models.ShoppingCart", b =>
                 {
                     b.HasOne("Hakims_Livs.Models.Product", "Product")
@@ -455,6 +501,16 @@ namespace Hakims_Livs.Data.Migrations
                         .HasForeignKey("ProductsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Hakims_Livs.Models.Order", b =>
+                {
+                    b.Navigation("Quantity");
+                });
+
+            modelBuilder.Entity("Hakims_Livs.Models.Product", b =>
+                {
+                    b.Navigation("Quantity");
                 });
 #pragma warning restore 612, 618
         }

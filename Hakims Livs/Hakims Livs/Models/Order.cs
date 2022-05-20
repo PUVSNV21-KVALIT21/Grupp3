@@ -8,5 +8,6 @@
         public List<Product> Products { get; set; }
         public bool IsDone { get; set; }
         public DateTime TimePlaced { get; set; }
+        public List<Quantity> Quantity { get; set; }
     }
 }

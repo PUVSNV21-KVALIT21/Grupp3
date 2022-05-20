@@ -76,9 +76,9 @@
                 <tr>
                     <th scope="row"></th>
                     <td>@product.Name</td>
-                    <td>1</td>
+                    <td>@product.Quantity.Amount</td>
                     <td>@product.Price kr</td>
-                    <td>@product.Price kr</td>
+                    <td>@(@product.Price* @product.Quantity.Amount) kr</td>
                 </tr>
             </tbody>
         }
@@ -114,10 +114,13 @@
         if (currentCustomer != null)
         {
             //var ShoppingList = context.ShoppingCarts.Where(x => x.UserId == currentCustomer.Id).Select(x => x.Product.Price).ToList();
-            order = context.Orders.Include(x => x.Products).Where(x => x.Id.ToString() == Id).First();
+            order = context.Orders.Include(x => x.Products).ThenInclude(x => x.Quantity).Include(x => x.User).Where(x => x.Id.ToString() == Id).First();
             foreach (var product in order.Products)
             {
-                totalCart += product.Price;
+                for (var i = 0; i < product.Quantity.Amount; i++)
+                {
+                    totalCart += product.Price;
+                }
             }
         }
     }
