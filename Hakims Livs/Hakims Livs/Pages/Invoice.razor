@@ -3,12 +3,9 @@
 @inject ICart _cart
 @page "/invoice"
 
-
-
 <body onload="window.print()">
     <h1 class="display-2">Hakim Livs</h1>
     <h1 class="display-5">Faktura</h1>
-
 
     <div class="container px-4">
         <div class="row gx-5">
@@ -95,16 +92,11 @@
 </body>
 
 @code {
-    //list with user id and product id
-    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
-
-    public List<Product> ProductList = new List<Product>();
-    public List<Order> OrderList = new List<Order>();
     public Order order { get; set; }
     private Customer currentCustomer { get; set; }
     public double totalCart;
 
-
+    // Gets orders from currentcustomer and matches on userID and updates totalCart
     protected override async Task OnParametersSetAsync()
     {
         currentCustomer = await _user.GetCurrentUserAsync();

@@ -38,7 +38,6 @@ namespace Hakims_Livs.Services
         }
         public async Task RemoveProduct(Product product)
         {
-            //find the shoppinglist with the chosen product
             var shoppinglistToRemove = _context.ShoppingCarts.FirstOrDefault(s => s.Product == product);
             if (shoppinglistToRemove != null)
             {

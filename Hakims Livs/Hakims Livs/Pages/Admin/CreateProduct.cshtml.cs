@@ -25,6 +25,8 @@ namespace Hakims_Livs.Pages.Admin
             _admin = admin;
             _navigationManager = navigationManager;
         }
+
+        //Gets all the categories in the database and creates a selectlist
         public async Task OnGetAsync()
         {
             categories = _context.Categories.ToList();
@@ -40,6 +42,7 @@ namespace Hakims_Livs.Pages.Admin
         [BindProperty]
         public Product product { get; set; }
  
+        //Takes input and creates a product
         public async Task<IActionResult> OnPostAsync(Product product, Category category)
         {
             var selectedCategory = await _context.Categories.FindAsync(category.ID);

@@ -19,7 +19,7 @@
 <button class="create" @onclick="CreateProduct" style="margin: 10px;">Skapa Produkt</button>
 <button class="create" @onclick="CreateCategory" style="margin: 10px;">Skapa Kategori</button>
 </div>
-        <h3 style="text-align: center; padding-bottom: 20px;">Produkter</h3>
+   <h3 style="text-align: center; padding-bottom: 20px;">Produkter</h3>
     <div class="productcontainer">
         @foreach (var product in products)
             {
@@ -66,6 +66,8 @@
         categories = _context.Categories.AsNoTracking().OrderBy(x => x.Name).ToList();
         TotalProducts = _context.Products.Count();
     }
+
+    //Creates admin account on init
     protected override async Task OnInitializedAsync()
     {
         if (context.Customers.Where(cu => cu.Email == "admin1@example.com").Count() < 1)
@@ -134,6 +136,7 @@
         NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
     }
 
+    //Method to disable buttons to prevent site crashing from slow server response
     Task DisableButtonOnClick()
     {       
         return Task.Delay(100);

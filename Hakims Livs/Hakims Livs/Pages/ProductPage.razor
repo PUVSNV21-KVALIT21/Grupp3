@@ -21,8 +21,7 @@
 
 <PageTitle> Produkter </PageTitle>
     <select @onchange="ChangeSorting">
-        
-      
+          
     @foreach (var option in options)
         {
             <option value=@option>@option</option>
@@ -54,6 +53,7 @@
     private Customer currentCustomer { get; set; }
     bool IsTaskRunning = false;
 
+    //Sorting field for products
     protected override void OnParametersSet()
     {
         options = new List<string>() { "Name", "Price"};

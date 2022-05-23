@@ -31,7 +31,7 @@
                         <td>@product.Price kr</td>
                     </tr>
                 </tbody>
-            } @*loopa genom shoppinglistorna och skapa flera rader beroende p åhur många prosukter som finns*@
+            }
             <tfoot>
                 <tr>
                     <th scope="row"></th>
@@ -59,25 +59,21 @@
 
 
 @code {
-    //list with user id and product id
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
-
     public List<Product> ProductList = new List<Product>();
-
     private Customer currentCustomer { get; set; }
     public double totalCart;
 
-
+    //Gets the current users shoppinglist and saves it to ProductList which we then use to display items in checkout
     protected override async Task OnParametersSetAsync()
     {
         currentCustomer = await _user.GetCurrentUserAsync();
         totalCart = await _cart.UpdateCartPrice();
-
         ShoppingList = new List<ShoppingCart>();
 
         if (currentCustomer != null)
         {
-            //create a list with all shoppinglists where the user id match the loged in user
+            //Creates a list with all shoppinglists where the user id matches the loged in user id
             ShoppingList = context.ShoppingCarts.Where(s => s.UserId == currentCustomer.Id).ToList();
 
             ProductList = new List<Product>();
@@ -93,6 +89,8 @@
         await _order.CreateOrder();
         await PrintDocument();
     }
+
+    //Creates a new page where you can print out the invoice
     public async Task PrintDocument() => await IJS.InvokeAsync<object>("open", new object[] { "/invoice" });
 
 }
