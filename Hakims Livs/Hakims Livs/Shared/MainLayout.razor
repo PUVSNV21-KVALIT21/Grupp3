@@ -6,8 +6,6 @@
 @inject IShowModal _showModal
 @inject ICart _cart
 
-
-
 <PageTitle>Hakim Livs</PageTitle>
 
 <div class="page">
@@ -30,7 +28,7 @@
             @if (SelectedProduct != null)
             {
                 ShowProduct(SelectedProduct.ID);
-                //Reseting selected product so it doesnt keep showing up when switching tab
+                //Resetting selected product so it doesnt keep showing up when switching tab
                 SelectedProduct = null;
             }
         <form>

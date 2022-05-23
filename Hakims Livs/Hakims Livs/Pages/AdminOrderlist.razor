@@ -39,17 +39,15 @@
 </body>
 @code {
 
-    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
-
     public List<Product> ProductList = new List<Product>();
     public List<Order> OrderList = new List<Order>();
 
+    //Gets products and orders from the database
     protected override async Task OnParametersSetAsync()
     {
         ProductList = new List<Product>();
         OrderList = new List<Order>();
         OrderList = context.Orders.Include(p => p.Products).Include(x => x.User).OrderBy(x => x.User).Where(x => x.IsDone == false).ToList();
-
     }
 
 }

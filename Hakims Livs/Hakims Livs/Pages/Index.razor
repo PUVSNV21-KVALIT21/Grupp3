@@ -43,7 +43,10 @@
 
     protected override Task OnInitializedAsync()
     {
+        //If the database(locally) is empty, loads a csv-file with example data for testing purposes
         LoadCsvFile(context);
+
+        // If there's no admin-account created, creates an account and sets role to Admin
         if (context.Customers.Where(cu => cu.Email == "admin1@example.com").Count() < 1)
         {
             var adminRole = new Microsoft.AspNetCore.Identity.IdentityRole("Admin");
@@ -73,6 +76,7 @@
             context.UserRoles.AddAsync(addrole);
             context.SaveChangesAsync();
         }
+        //Gets the 12 most ordered products and displays them on the index page
         products = new List<Product>();
         products = _context.Products.Include(x => x.Orders).OrderByDescending(x => x.Orders.Count()).Take(12).ToList();
         return base.OnInitializedAsync();
@@ -102,6 +106,8 @@
     {
         return Task.Delay(100);
     }
+
+    //Loads example data from a csv file
     public static async Task LoadCsvFile(ApplicationDbContext context)
     {
         if (!context.Products.Any())

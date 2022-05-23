@@ -6,7 +6,6 @@
 @inject IUser _user
 @inject ICart _cart
 @inject NavigationManager Navigation
-
 @page "/shoppingcart"
 
 <h1>Kundvagnen</h1>
@@ -14,7 +13,6 @@
 <AuthorizeView>
     <Authorized>
         <h5>Hej, @context.User.Identity?.Name</h5>
-
     <div class="productcontainer">
         @foreach (var product in ProductList)
             {
@@ -29,27 +27,21 @@
                 </div>
             }
         </div>
-
     </Authorized>
 </AuthorizeView>
 
 @code {
-    //list with user id and product id
     public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
-
     public List<Product> ProductList = new List<Product>();
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
-    private System.Security.Claims.ClaimsPrincipal user { get; set; }
     private Customer currentCustomer { get; set; }
     bool IsTaskRunning = false;
 
-      Task DisableButtonOnClick()
+    Task DisableButtonOnClick()
     {       
         return Task.Delay(100);
     }
 
+    //Gets the current users shoppinglist and saves it to ProductList which we then use to display items in ShoppingCart
     protected override async Task OnParametersSetAsync()
     {
         currentCustomer = await _user.GetCurrentUserAsync();
@@ -58,7 +50,6 @@
 
         if (currentCustomer != null)
         {
-            //create a list with all shoppinglists where the user id match the loged in user
             ShoppingList = context.ShoppingCarts.Where(s => s.UserId == currentCustomer.Id).ToList();
 
             ProductList = new List<Product>();

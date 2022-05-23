@@ -30,6 +30,7 @@
     public Product product { get; set; }
     public Customer currentCustomer { get; set; }
 
+    //Finds the product with the same id as we get from the parameter
     protected override void OnParametersSet()
     {
         product = context.Products.Where(x => x.ID == id).FirstOrDefault();

@@ -1,14 +1,13 @@
 ﻿@page "/completedorders"
 @inject IJSRuntime IJS
-
 @inject IUser _user
 @inject ICart _cart
 @inject IOrder _order
 @inject NavigationManager Navigation
+@*The only person who can see this page is an admin*@
 <AuthorizeView Roles="Admin">
     <Authorized>
         
-
 <h1 style=text-decoration:underline>Färdiga Beställningar</h1> <button @onclick="PrintOrders">Skriv ut färdiga beställningar</button>
 <button @onclick="Navigate">Visa pågående beställningar</button>
 
@@ -40,7 +39,7 @@
                 <td></td>
 
                 <td>
-                    <NavLink href=@($"printorder/{item.User}")>
+                    <NavLink href=@($"printorder/{item.Id}")>
                         <button>Se Detaljerad order</button>
                     </NavLink>
 
@@ -55,17 +54,13 @@
         </Authorized>
  </AuthorizeView>
 @code {
-
     bool isChecked = false;
-
-    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
     public List<Order> OrderList = new List<Order>();
-
     public List<Product> ProductList = new List<Product>();
-    public List<Customer> CustomerList = new List<Customer>();
 
     public async Task PrintOrders() => await IJS.InvokeAsync<object>("open", new object[] { "/orderhistory" });
 
+    //Gets products and orders from the database
     protected override async Task OnParametersSetAsync()
     {
         ProductList = new List<Product>();
@@ -78,6 +73,8 @@
         await _order.UpdateOrder(id);
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
     }
+
+    //Navigates to the "orders" page
     public async Task Navigate()
     {
         Navigation.NavigateTo("orders", forceLoad: true);

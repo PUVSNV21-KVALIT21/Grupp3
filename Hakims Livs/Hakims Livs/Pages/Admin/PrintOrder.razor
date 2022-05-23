@@ -1,7 +1,6 @@
 ﻿@inject IUser _user
 @inject ICart _cart
 @inject IJSRuntime IJS
-
 @page "/printorder"
 @page "/printorder/{Id}"
 
@@ -9,8 +8,6 @@
 <body onload="window.print()">
     <h1 class="display-2">Order</h1>
    
-
-
     <div class="container px-4">
         <div class="row gx-5">
             <div class="col">
@@ -98,22 +95,17 @@
 @code {
     [Parameter]
     public string Id{ get; set; }
-    //list with user id and product id
-    public List<ShoppingCart> ShoppingList = new List<ShoppingCart>();
     public Order order { get; set; }
-    public List<Product> ProductList = new List<Product>();
     public Customer currentCustomer;
-
     public double totalCart;
 
-
+    //Updates the price in cart
     protected override async Task OnParametersSetAsync()
     {
         currentCustomer = await _user.GetCurrentUserAsync();
         totalCart = 0;
         if (currentCustomer != null)
         {
-            //var ShoppingList = context.ShoppingCarts.Where(x => x.UserId == currentCustomer.Id).Select(x => x.Product.Price).ToList();
             order = context.Orders.Include(x => x.Products).Where(x => x.Id.ToString() == Id).First();
             foreach (var product in order.Products)
             {

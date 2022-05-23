@@ -19,9 +19,6 @@ namespace Hakims_Livs.Pages.Admin
             _context = context;
             _admin = admin;
         }
-        public async Task OnGetAsync()
-        {
-        }
         public async Task<IActionResult> OnPostAsync(Category category)
         {
             try
